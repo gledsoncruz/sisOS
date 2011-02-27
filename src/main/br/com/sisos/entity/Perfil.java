@@ -8,7 +8,7 @@ package br.com.sisos.entity;
 public enum Perfil {
 	ADMIN ("Administrador"),
 	TECNICO ("Tecnico"),
-	DEMO ("Demonstração");
+	DEMO ("Demonstra√ß√£o");
 	
 	private String valor;
 
