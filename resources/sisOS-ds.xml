@@ -10,8 +10,8 @@
       <jndi-name>sisOSDatasource</jndi-name>
       <connection-url>jdbc:postgresql:sisos</connection-url>
       <driver-class>org.postgresql.Driver</driver-class>
-      <user-name>postgres</user-name>
-      <password>opengeo5dl</password>
+      <user-name>gledsoncruz</user-name>
+      <password>gc07121978</password>
 <!-- 
       <exception-sorter-class-name>
          org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter
