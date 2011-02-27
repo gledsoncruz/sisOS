@@ -24,13 +24,13 @@
 				<s:decorate id="pessoaField" template="/layout/edit.xhtml">
 					<ui:define name="label">Tipo Pessoa</ui:define>
 
-						<h:selectOneMenu value="#{cliente.tipoPessoa}" required="false">
-							<s:selectItems var="tipoPessoa" value="#{tipoPessoaFactory}"
-								label="#{tipoPessoa.valor}" />
-							<s:convertEnum />
-							<a4j:support event="onchange" reRender="pessoaField"
-								ajaxSingle="true"/>
-						</h:selectOneMenu>
+					<h:selectOneMenu value="#{cliente.tipoPessoa}" required="false">
+						<s:selectItems var="tipoPessoa" value="#{tipoPessoaFactory}"
+							label="#{tipoPessoa.valor}" />
+						<s:convertEnum />
+						<a4j:support event="onchange" reRender="pessoaField"
+							ajaxSingle="true" />
+					</h:selectOneMenu>
 
 				</s:decorate>
 
@@ -43,16 +43,23 @@
 					</h:inputText>
 				</s:decorate>
 
+				<a4j:region id="valCPFCliente">
+					<s:decorate id="cpfField" template="/layout/edit.xhtml">
+						<ui:define name="label">CPF</ui:define>
+						<p:inputMask value="#{cliente.cpf}" mask="999.999.999-99"
+							required="#{not identity.hasRole('admin')}" id="cpf"
+							validator="#{validatorProject.validateCPF}">
+							<a4j:support event="onblur" reRender="cpfField"
+								bypassUpdates="true" ajaxSingle="true" eventsQueue="foo2" />
+						</p:inputMask>
+						<a4j:status for="valCPFCliente">
+							<f:facet name="start">
+								<h:graphicImage value="/img/carregando_.gif" />
+							</f:facet>
+						</a4j:status>
+					</s:decorate>
+				</a4j:region>
 
-				<s:decorate id="cpfField" template="/layout/edit.xhtml">
-					<ui:define name="label">CPF</ui:define>
-					<p:inputMask value="#{cliente.cpf}" mask="999.999.999-99"
-						required="#{not identity.hasRole('admin')}" id="cpf"
-						validator="#{validatorProject.validateCPF}">
-						<a4j:support event="onblur" reRender="cpfField"
-							bypassUpdates="true" ajaxSingle="true" />
-					</p:inputMask>
-				</s:decorate>
 				<a4j:region id="valEmailCliente">
 					<s:decorate id="emailField" template="/layout/edit.xhtml">
 						<ui:define name="label">Email</ui:define>
