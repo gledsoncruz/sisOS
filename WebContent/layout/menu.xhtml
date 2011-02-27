@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich">
+	<div id="cabecalho"><h:graphicImage value="/img/topo.png"
+		width="200px;" style="padding-left: 40px;" />
+	
+	</div>
+	<h:form >
+	<rich:toolBar>
+		<rich:toolBarGroup>
+			<h:outputText value="Sistema de Controle de Ordem de Serviço:" />
+			<s:link view="/home.xhtml" value="Home" />
+		</rich:toolBarGroup>
+
+		<rich:dropDownMenu value="Usuario" rendered="#{identity.hasRole('admin')}" >
+			<rich:menuItem value="Cadastro de Usuarios"
+				action="/faces/usuario/usuario.xhtml">
+				<s:conversationPropagation type="end"></s:conversationPropagation>
+			</rich:menuItem>
+
+		</rich:dropDownMenu>
+		
+		<rich:dropDownMenu value="Cliente" rendered="#{identity.loggedIn}" >
+			<rich:menuItem value="Cadastro de Clientes"
+				action="/faces/cliente/cliente.xhtml">
+				<s:conversationPropagation type="end"></s:conversationPropagation>
+			</rich:menuItem>
+
+		</rich:dropDownMenu>
+
+
+
+		<!-- @newMenuItem@ -->
+		<rich:toolBarGroup location="right">
+			<h:outputText
+					value="#{messages['usuario']}: #{identity.usuario.nome}"
+					rendered="#{identity.loggedIn}" />
+				<h:outputText
+					value="#{messages['perfil']}: #{identity.usuario.perfil.valor}"
+					rendered="#{identity.loggedIn}" />
+			<s:link view="/login.xhtml" value="Login"
+				rendered="#{not identity.loggedIn}" />
+			<s:link view="/home.xhtml" action="#{identity.logout}" value="Logout"
+				rendered="#{identity.loggedIn}" />
+		</rich:toolBarGroup>
+	</rich:toolBar>
+	</h:form>
+</ui:composition>

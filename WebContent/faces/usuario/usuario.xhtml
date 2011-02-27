@@ -1,0 +1,310 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/layout/template.xhtml">
+
+
+	<ui:define name="body">
+
+
+		<a4j:form id="usuarioForm">
+			<p:messages globalOnly="true" styleClass="message" />
+
+
+
+			<rich:simpleTogglePanel switchType="client">
+				<f:facet name="header">Usuário</f:facet>
+				<div style="clear: both" />
+
+				<s:decorate id="nameField" template="/layout/edit.xhtml">
+					<ui:define name="label">Nome</ui:define>
+					<h:inputText id="name" size="50" value="#{tecnico.nome}"
+						required="true">
+						<a4j:support event="onblur" reRender="nameField"
+							bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<a4j:region id="valUsernameTecnico">
+					<s:decorate id="usernameField" template="/layout/edit.xhtml">
+						<ui:define name="label">Login</ui:define>
+						<h:inputText id="username" size="50" value="#{tecnico.login}"
+							required="true" validator="#{validatorProject.validateLogin}">
+							<a4j:support event="onblur" reRender="usernameField"
+								bypassUpdates="true" ajaxSingle="true" eventsQueue="foo2" />
+						</h:inputText>
+						<a4j:status for="valUsernameTecnico">
+							<f:facet name="start">
+								<h:graphicImage value="/img/carregando_.gif" />
+							</f:facet>
+						</a4j:status>
+					</s:decorate>
+				</a4j:region>
+
+				<s:decorate id="passwordField" template="/layout/edit.xhtml">
+					<ui:define name="label">Senha</ui:define>
+					<p:password id="password" size="20" value="#{tecnico.senha}"
+						required="true" goodLabel="Bom" strongLabel="Forte"
+						weakLabel="Fraco" promptLabel="Força da Senha">
+						<a4j:support event="onblur" reRender="passwordField"
+							bypassUpdates="true" ajaxSingle="true" />
+					</p:password>
+				</s:decorate>
+
+				<s:decorate id="passwordFieldRepeat" template="/layout/edit.xhtml">
+					<ui:define name="label">Repete Senha</ui:define>
+					<h:inputSecret id="confirmPassword" size="20" required="true"
+						validator="#{validatorProject.validateConfimSenha}"
+						redisplay="true" value="#{tecnico.confirmaSenha}">
+						<f:attribute name="passwordId"
+							value="usuarioForm:passwordField:password" />
+						<a4j:support event="onblur" reRender="passwordFieldRepeat"
+							bypassUpdates="true" ajaxSingle="true" />
+					</h:inputSecret>
+				</s:decorate>
+
+				<a4j:region id="valCPFTecnico">
+					<s:decorate id="cpfField" template="/layout/edit.xhtml">
+						<ui:define name="label">CPF</ui:define>
+						<p:inputMask value="#{tecnico.cpf}" mask="999.999.999-99"
+							required="#{not identity.hasRole('admin')}" id="cpf"
+							validator="#{validatorProject.validateCPF}">
+							<a4j:support event="onblur" reRender="cpfField"
+								bypassUpdates="true" ajaxSingle="true" eventsQueue="foo2" />
+						</p:inputMask>
+						<a4j:status for="valCPFTecnico">
+							<f:facet name="start">
+								<h:graphicImage value="/img/carregando_.gif" />
+							</f:facet>
+						</a4j:status>
+					</s:decorate>
+				</a4j:region>
+
+				<a4j:region id="valEmailTecnico">
+					<s:decorate id="emailField" template="/layout/edit.xhtml">
+						<ui:define name="label">Email</ui:define>
+						<h:inputText id="email" size="50" value="#{tecnico.email}"
+							required="true" validator="#{validatorProject.validateEmail}">
+							<s:validate />
+							<a4j:support event="onblur" reRender="emailField"
+								bypassUpdates="true" ajaxSingle="true" eventsQueue="foo2" />
+						</h:inputText>
+						<a4j:status for="valEmailTecnico">
+							<f:facet name="start">
+								<h:graphicImage value="/img/carregando_.gif" />
+							</f:facet>
+						</a4j:status>
+					</s:decorate>
+				</a4j:region>
+
+				<s:decorate id="telField" template="/layout/edit.xhtml">
+					<ui:define name="label">Telefone</ui:define>
+					<p:inputMask id="tel" value="#{tecnico.tel}"
+						required="#{not identity.hasRole('admin')}" mask="(99)9999-9999">
+						<a4j:support event="onblur" reRender="telField"
+							bypassUpdates="true" ajaxSingle="true" />
+					</p:inputMask>
+				</s:decorate>
+
+
+				<s:decorate id="enderecoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Endereço</ui:define>
+					<h:inputText id="endereco" size="50" value="#{tecnico.endereco}"
+						required="false">
+						<a4j:support event="onblur" reRender="enderecoField"
+							bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="numeroField" template="/layout/edit.xhtml">
+					<ui:define name="label">Número</ui:define>
+					<h:inputText id="numero" size="10" value="#{tecnico.numero}"
+						required="false">
+						<a4j:support event="onblur" reRender="numeroField"
+							bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="complementoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Complemento</ui:define>
+					<h:inputText id="complemento" size="50"
+						value="#{tecnico.complemento}" required="false">
+						<a4j:support event="onblur" reRender="complementoField"
+							bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="bairroField" template="/layout/edit.xhtml">
+					<ui:define name="label">Bairro</ui:define>
+					<h:inputText id="bairro" size="50" value="#{tecnico.bairro}"
+						required="false">
+						<a4j:support event="onblur" reRender="bairroField"
+							bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="cidadeField" template="/layout/edit.xhtml">
+					<ui:define name="label">#{messages['field.cidade']}</ui:define>
+					<h:inputText id="cidade" size="50" value="#{tecnico.cidade}"
+						required="false">
+						<a4j:support event="onblur" reRender="cidadeField"
+							bypassUpdates="true" ajaxSingle="true" />
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="estadoField" template="/layout/edit.xhtml">
+					<ui:define name="label">#{messages['field.estado']}</ui:define>
+					<h:selectOneMenu value="#{tecnico.estado}" required="false">
+						<s:selectItems var="estado" value="#{estadoFactory}"
+							label="#{estado.valor}" noSelectionLabel="-- Selecione --" />
+						<s:convertEnum />
+					</h:selectOneMenu>
+					<a4j:support event="onblur" reRender="estadoField"
+						bypassUpdates="true" ajaxSingle="true" />
+				</s:decorate>
+
+				<s:decorate id="perfilField" template="/layout/edit.xhtml"
+					rendered="#{identity.hasRole('admin')}">
+					<ui:define name="label">#{messages['field.perfil']}</ui:define>
+					<h:selectOneMenu value="#{tecnico.perfil}" required="true">
+						<s:selectItems var="perfil" value="#{perfilFactory}"
+							label="#{perfil.valor}" noSelectionLabel="-- Selecione --" />
+					</h:selectOneMenu>
+					<a4j:support event="onblur" reRender="perfilField"
+						bypassUpdates="true" ajaxSingle="true" />
+				</s:decorate>
+
+
+				<s:decorate id="cepField" template="/layout/edit.xhtml">
+					<ui:define name="label">CEP</ui:define>
+					<p:inputMask value="#{tecnico.cep}" mask="99.999-999"
+						required="false" id="cep" />
+				</s:decorate>
+
+				<s:decorate id="ativoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Ativo?</ui:define>
+					<h:selectBooleanCheckbox value="#{tecnico.ativo}" />
+				</s:decorate>
+
+
+				<br />
+				<br />
+				<div style="clear: both"><span class="required">*</span>
+				Campos requeridos</div>
+
+				<div style="clear: both" />
+				<br />
+				<br />
+
+				<div class="actionButtons"><a4j:commandButton value="Inserir"
+					style=" width : 100px;" action="#{tecnicoAction.salvar(tecnico)}"
+					rendered="#{tecnico.id == null}"
+					reRender="usuarioForm, frmTabelaTec" /> <a4j:commandButton
+					value="Editar" style=" width : 100px;"
+					action="#{tecnicoAction.alterar(tecnico)}"
+					rendered="#{tecnico.id != null}"
+					reRender="usuarioForm, frmTabelaTec" /> <a4j:commandButton
+					value="#{messages['btnCancel']}" style="width : 100px;"
+					action="#{tecnicoAction.cancelar()}"
+					rendered="#{tecnico.id != null}" reRender="usuarioForm"
+					ajaxSingle="true" /></div>
+
+			</rich:simpleTogglePanel>
+
+		</a4j:form>
+		<rich:spacer width="5px" />
+		<br />
+		<br />
+
+		<a4j:form id="frmTabelaTec" rendered="#{identity.hasRole('admin')}">
+
+			<rich:dataTable value="#{tecnicoAction.carregarTodos()}"
+				var="tecnico" rows="10" reRender="ds" id="simpletable"
+				rendered="#{tecnicoAction.carregarTodos().size > 0}"
+				columnClasses="center"
+				onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
+				onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
+				<f:facet name="header">
+					<h:outputText value="Usuário" />
+				</f:facet>
+				<rich:column sortBy="#{tecnico.nome}" filterBy="#{tecnico.nome}">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{tecnico.nome}" />
+				</rich:column>
+				<rich:column sortBy="#{tecnico.email}" filterBy="#{tecnico.email}">
+					<f:facet name="header">
+						<h:outputText value="Email" />
+					</f:facet>
+					<h:outputText value="#{tecnico.email}" />
+				</rich:column>
+				<rich:column sortBy="#{tecnico.cpf}" filterBy="#{tecnico.cpf}">
+					<f:facet name="header">
+						<h:outputText value="CPF" />
+					</f:facet>
+					<h:outputText value="#{tecnico.cpf}" />
+				</rich:column>
+				<rich:column sortBy="#{tecnico.tel}">
+					<f:facet name="header">
+						<h:outputText value="Telefone" />
+					</f:facet>
+					<h:outputText value="#{tecnico.tel}" />
+				</rich:column>
+				<rich:column sortBy="#{tecnico.perfil.valor}">
+					<f:facet name="header">
+						<h:outputText value="Perfil" />
+					</f:facet>
+					<h:outputText value="#{tecnico.perfil.valor}" />
+				</rich:column>
+				<rich:column style="text-align: center;">
+					<f:facet name="header">
+						<h:outputText value="Editar" />
+					</f:facet>
+					<a4j:commandLink
+						action="#{tecnicoAction.selecionarTecnico(tecnico)}"
+						reRender="usuarioForm">
+						<h:graphicImage value="/img/ico_altera_16.gif"
+							style="border: none;" alt="Alterar" title="Alterar Registro"/>
+					</a4j:commandLink>
+				</rich:column>
+				<rich:column style="text-align: center;">
+					<f:facet name="header">
+						<h:outputText value="Apagar" />
+					</f:facet>
+					<a4j:commandLink action="#{tecnicoAction.excluir(tecnico)}"
+						reRender="simpletable"
+						onclick="if(!confirm('Confirma Exclus&#227;o?')){return false;}">
+						<h:graphicImage value="/img/ico_apaga_16.gif"
+							style="border: none;" alt="Excluir" title="Excluir Registro"/>
+
+					</a4j:commandLink>
+				</rich:column>
+
+
+
+				<f:facet name="footer">
+					<rich:datascroller id="ds"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>
+
+
+			<s:fragment rendered="#{tecnicoAction.carregarTodos().size > 0}">
+				<h:outputText
+					value="Total de Registros: #{tecnicoAction.carregarTodos().size}" />
+			</s:fragment>
+
+		</a4j:form>
+
+
+
+	</ui:define>
+
+</ui:composition>

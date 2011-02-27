@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:s="http://jboss.com/products/seam/taglib"
+      xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>sisOS</title>
+    <link href="#{facesContext.externalContext.requestContextPath}/stylesheet/theme.css" rel="stylesheet" type="text/css" />
+    <p:resources />
+</head>
+
+<body>
+
+    <ui:include src="menu.xhtml">
+        <ui:param name="projectName" value="sisOS"/>
+    </ui:include>
+
+	<div class="body">
+		<ui:insert name="body"/>
+	</div>
+
+	<div class="footer">
+		<p>Desenvolvido por <a href="http://centerclick.com.br">CenterClick</a><br/>
+		Homologado e testado <a href="http://br.mozdev.org/">Mozilla Firefox</a></p>
+	</div>
+
+</body>
+</html>

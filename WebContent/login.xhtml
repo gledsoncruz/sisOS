@@ -1,0 +1,47 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:p="http://primefaces.prime.com.tr/ui"
+                template="layout/template.xhtml">
+
+<ui:define name="body">
+    
+    
+    
+    <p:messages globalOnly="true" styleClass="message" />
+    <h:form id="login">
+    <p:growl id="growl" showDetail="true" life="2000"/>
+    
+        <rich:panel>
+            <f:facet name="header">Login</f:facet>
+    
+            <p>Por favor, logue-se aqui</p>
+        
+            <div class="dialog">
+                <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+                    <h:outputLabel for="username">Usuário</h:outputLabel>
+                    <h:inputText id="username" 
+                              value="#{identity.username}"/>
+                    <h:outputLabel for="password">Senha</h:outputLabel>
+                    <h:inputSecret id="password" 
+                                value="#{identity.password}"/>
+                </h:panelGrid>
+            </div>
+            
+                            
+        </rich:panel>
+            
+        <div class="actionButtons">
+            <h:commandButton value="Login" action="#{identity.login}" update="growl"/>
+            
+        </div>
+          
+    </h:form>
+
+ </ui:define> 
+</ui:composition>
