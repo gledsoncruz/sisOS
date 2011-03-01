@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.annotations.security.Restrict;
 
 import br.com.sisos.entity.Cliente;
 import br.com.sisos.services.ClienteService;
@@ -37,6 +38,7 @@ public class ClienteAction extends BaseAction{
 	}
 	
 	@Begin(join = true)
+	@Restrict("#{!s:hasRole('demo')}")
 	public void salvar(Cliente cliente){
 		
 		this.clienteService.salvar(cliente);
@@ -45,6 +47,7 @@ public class ClienteAction extends BaseAction{
 		
 	}
 	
+	@End
 	public void alterar(Cliente cliente){
 		
 		this.clienteService.alterar(cliente);
