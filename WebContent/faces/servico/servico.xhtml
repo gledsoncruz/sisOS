@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<a4j:form id="servicoForm">
+			<p:messages globalOnly="true" styleClass="message" />
+			<rich:simpleTogglePanel switchType="client" >
+				<f:facet name="header">Servico</f:facet>
+
+				<s:decorate id="clienteField" template="/layout/edit.xhtml">
+					<ui:define name="label">Nome Cliente</ui:define>
+					<h:inputText value="" id="campo" />
+
+					<rich:suggestionbox height="150" width="150" for="campo"
+						suggestionAction="#{servicoAction.complete}" var="campo">
+						<h:column>
+							<h:outputText value="#{campo.nome}" />
+						</h:column>
+					</rich:suggestionbox>
+				</s:decorate>
+
+				<h:panelGrid columns="4">
+					<s:decorate id="tetseField" template="/layout/edit.xhtml">
+						<ui:define name="label">Cliente</ui:define>
+						<h:outputText value="teste" />
+					</s:decorate>
+					<s:decorate id="tetseField1" template="/layout/edit.xhtml">
+						<ui:define name="label">Cliente</ui:define>
+
+					</s:decorate>
+				</h:panelGrid>
+			</rich:simpleTogglePanel>
+		</a4j:form>
+
+
+	</ui:define>
+</ui:composition>
+
