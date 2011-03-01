@@ -11,7 +11,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.security.Identity;
+import org.jboss.seam.annotations.security.Restrict;
 
 import br.com.sisos.entity.Tecnico;
 import br.com.sisos.services.TecnicoService;
@@ -38,18 +38,19 @@ public class TecnicoAction extends BaseAction {
 	}
 
 	@Begin(join = true)
+	@Restrict("#{!s:hasRole('demo')}")
 	public void salvar(Tecnico tecnico) {
 
-		if (Identity.instance().hasRole("demo")) {
+		/*if (Identity.instance().hasRole("demo")) {
 			this.tecnico = new Tecnico();
 			this.addMsgBundle(FacesMessage.SEVERITY_ERROR, "AuthorizationException");
-		} else {
+		} else {*/
 			tecnico.setSenha(Criptografia.criptografar(tecnico.getSenha()));
 
 			tecnicoService.salvar(tecnico);
 			this.tecnico = new Tecnico();
 			this.addMsgBundle(FacesMessage.SEVERITY_INFO, "crudSaveSucess");
-		}
+		//}
 
 	}
 
@@ -58,6 +59,8 @@ public class TecnicoAction extends BaseAction {
 		this.tecnico = new Tecnico();
 	}
 
+
+	@End
 	public void alterar(Tecnico tecnico) {
 		tecnico.setSenha(Criptografia.criptografar(tecnico.getSenha()));
 		this.tecnicoService.alterar(tecnico);
@@ -78,6 +81,7 @@ public class TecnicoAction extends BaseAction {
 		this.tecnico = tecnico;
 	}
 
+	
 	public void excluir(Tecnico tecnico) {
 		this.tecnicoService.excluir(tecnico);
 		this.tecnico = new Tecnico();
