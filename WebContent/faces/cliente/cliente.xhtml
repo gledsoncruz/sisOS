@@ -21,7 +21,7 @@
 				<f:facet name="header">Cliente</f:facet>
 				<div style="clear: both" />
 
-				<s:decorate id="pessoaField" template="/layout/edit.xhtml">
+				<s:decorate id="pessoaField" template="/layout/edit.xhtml" rendered="false">
 					<ui:define name="label">Tipo Pessoa</ui:define>
 
 					<h:selectOneMenu value="#{cliente.tipoPessoa}" required="false">
@@ -191,7 +191,7 @@
 		<br />
 
 		<a4j:form id="frmTabelaCliente"
-			rendered="#{identity.hasRole('admin')}">
+			rendered="#{!identity.hasRole('tecnico')}">
 
 			<rich:dataTable value="#{clienteAction.carregarTodos()}"
 				var="cliente" rows="10" reRender="ds" id="simpletable"
@@ -226,7 +226,7 @@
 					</f:facet>
 					<h:outputText value="#{cliente.tel}" />
 				</rich:column>
-				<rich:column style="text-align: center;">
+				<rich:column style="text-align: center;" rendered="#{identity.hasRole('admin')}">
 					<f:facet name="header">
 						<h:outputText value="Editar" />
 					</f:facet>
@@ -237,7 +237,7 @@
 							style="border: none;" alt="Alterar" title="Alterar Registro" />
 					</a4j:commandLink>
 				</rich:column>
-				<rich:column style="text-align: center;">
+				<rich:column style="text-align: center;" rendered="#{identity.hasRole('admin')}">
 					<f:facet name="header">
 						<h:outputText value="Apagar" />
 					</f:facet>
