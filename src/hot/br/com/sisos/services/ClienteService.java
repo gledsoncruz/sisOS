@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
@@ -43,6 +45,14 @@ public class ClienteService extends BaseService implements BaseInterfaceService<
 	public void salvar(Cliente obj) {
 		this.hibernateSession.save(obj);		
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Cliente> carregarAutoComplete(String param) {
+		Criteria criteria = hibernateSession.createCriteria(Cliente.class);
+		criteria.add(Restrictions.like("nome", param, MatchMode.START).ignoreCase());
+		return criteria.list();
+	}
+
 	
 
 }
