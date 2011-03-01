@@ -28,7 +28,13 @@
 				action="/faces/cliente/cliente.xhtml">
 				<s:conversationPropagation type="end"></s:conversationPropagation>
 			</rich:menuItem>
-
+		</rich:dropDownMenu>
+		
+		<rich:dropDownMenu value="Serviço" rendered="#{identity.loggedIn}" >
+			<rich:menuItem value="Ordem de Serviço"
+				action="/faces/servico/servico.xhtml">
+				<s:conversationPropagation type="end"></s:conversationPropagation>
+			</rich:menuItem>
 		</rich:dropDownMenu>
 
 
