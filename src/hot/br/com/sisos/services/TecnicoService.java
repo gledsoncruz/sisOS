@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
+import br.com.sisos.entity.Perfil;
 import br.com.sisos.entity.Tecnico;
 import br.com.sisos.util.Criptografia;
 
@@ -94,6 +95,14 @@ public class TecnicoService extends BaseService implements BaseInterfaceService<
 			return true;
 		}
 		return false;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Tecnico> carregarGrupoTecnico(){
+		Criteria criteria = hibernateSession.createCriteria(Tecnico.class);
+		criteria.add(Restrictions.eq("perfil", Perfil.TECNICO)).addOrder(Order.asc("nome"));
+		return criteria.list();
+		
 	}
 
 }
