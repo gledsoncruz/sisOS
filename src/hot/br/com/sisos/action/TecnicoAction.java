@@ -125,5 +125,9 @@ public class TecnicoAction extends BaseAction {
 	public boolean verificarSenhaAtual(String login, String senha) {
 		return this.tecnicoService.carregarPorSenhaAtual(login, senha);
 	}
+	
+	public List<Tecnico> carregarGrupoTecnico(){
+		return this.tecnicoService.carregarGrupoTecnico();
+	}
 
 }
