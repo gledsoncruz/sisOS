@@ -12,32 +12,150 @@
 	<ui:define name="body">
 		<a4j:form id="servicoForm">
 			<p:messages globalOnly="true" styleClass="message" />
-			<rich:simpleTogglePanel switchType="client" >
+			<rich:simpleTogglePanel switchType="client"
+				rendered="#{identity.hasRole('admin')}">
 				<f:facet name="header">Servico</f:facet>
 
-				<s:decorate id="clienteField" template="/layout/edit.xhtml">
-					<ui:define name="label">Nome Cliente</ui:define>
-					<h:inputText value="" id="campo" />
-
-					<rich:suggestionbox height="150" width="150" for="campo"
-						suggestionAction="#{servicoAction.complete}" var="campo">
-						<h:column>
-							<h:outputText value="#{campo.nome}" />
-						</h:column>
-					</rich:suggestionbox>
+				<s:decorate id="tecnicoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Escolher Técnico</ui:define>
+					<a4j:region>
+						<h:selectOneMenu value="#{servico.tecnico}">
+							<s:selectItems var="tecnico"
+								value="#{tecnicoAction.carregarGrupoTecnico()}"
+								label="#{tecnico.nome}" noSelectionLabel="-- Selecione --"></s:selectItems>
+							<s:convertEntity></s:convertEntity>
+							<!-- a4j:support event="onchange"
+								action="#{inscricaoAction.carregarItemPorEvento(inscricao.evento)}"
+								reRender="oppItems, eventoField" ajaxSingle="true">
+							</a4j:support-->
+						</h:selectOneMenu>
+					</a4j:region>
 				</s:decorate>
 
-				<h:panelGrid columns="4">
-					<s:decorate id="tetseField" template="/layout/edit.xhtml">
-						<ui:define name="label">Cliente</ui:define>
-						<h:outputText value="teste" />
-					</s:decorate>
-					<s:decorate id="tetseField1" template="/layout/edit.xhtml">
-						<ui:define name="label">Cliente</ui:define>
-
-					</s:decorate>
-				</h:panelGrid>
 			</rich:simpleTogglePanel>
+		</a4j:form>
+
+		<rich:spacer width="5px" />
+		<br />
+		<br />
+
+		<a4j:form id="frmTabelaCliente">
+			<h:outputText value="Consulte o cliente desejado:" />
+			<rich:spacer width="5px" />
+			<br />
+			<br />
+			<rich:dataTable value="#{clienteAction.carregarTodos()}"
+				var="cliente" rows="10" reRender="ds" id="simpletable"
+				rendered="#{clienteAction.carregarTodos().size > 0}"
+				columnClasses="center"
+				onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
+				onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
+				<f:facet name="header">
+					<h:outputText value="Cliente" />
+				</f:facet>
+				<rich:column sortBy="#{cliente.nome}">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{cliente.nome}" />
+				</rich:column>
+				<rich:column sortBy="#{cliente.email}">
+					<f:facet name="header">
+						<h:outputText value="Email" />
+					</f:facet>
+					<h:outputText value="#{cliente.email}" />
+				</rich:column>
+				<rich:column sortBy="#{cliente.cpf}">
+					<f:facet name="header">
+						<h:outputText value="CPF" />
+					</f:facet>
+					<h:outputText value="#{cliente.cpf}" />
+				</rich:column>
+				<rich:column sortBy="#{cliente.tel}">
+					<f:facet name="header">
+						<h:outputText value="Telefone" />
+					</f:facet>
+					<h:outputText value="#{cliente.tel}" />
+				</rich:column>
+
+				<rich:column style="text-align: center;">
+					<f:facet name="header">
+						<h:outputText value="Visualizar" />
+					</f:facet>
+					<a4j:commandLink
+						action="#{clienteAction.selecionarCliente(cliente)}"
+						onclick="Richfaces.showModalPanel('mdCliente');"
+						reRender="detalhesCliente">
+						<h:graphicImage value="/img/ico_busca_24.gif"
+							style="border: none;" alt="Alterar" title="Alterar Registro"
+							width="16px" />
+					</a4j:commandLink>
+				</rich:column>
+				<rich:column style="text-align: center;">
+					<f:facet name="header">
+						<h:outputText value="Nova OS" />
+					</f:facet>
+					<a4j:commandLink reRender="simpletable"
+						onclick="Richfaces.showModalPanel('mdCliente');">
+						<h:graphicImage value="/img/ico_novo_24.gif" style="border: none;"
+							alt="Nova OS" title="Nova OS" width="16px" />
+					</a4j:commandLink>
+				</rich:column>
+
+
+				<f:facet name="footer">
+					<rich:datascroller id="ds"></rich:datascroller>
+				</f:facet>
+			</rich:dataTable>
+
+
+			<!-- FORM MODAL PARA APRESENTACAO DE ITEMS DE ACORDO COM O EVENTO -->
+
+			<rich:modalPanel id="mdCliente" width="1000" height="400">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="Detalhes Cliente"></h:outputText>
+					</h:panelGroup>
+				</f:facet>
+				<f:facet name="controls">
+					<h:panelGroup>
+						<h:graphicImage value="/img/close.png" styleClass="hidelink"
+							id="hidelink" />
+						<rich:componentControl for="mdCliente" attachTo="hidelink"
+							operation="hide" event="onclick" />
+					</h:panelGroup>
+				</f:facet>
+				<a4j:outputPanel id="detalhesCliente">
+
+					<rich:tabPanel switchType="client">
+						<rich:tab label="Informações do Cliente">
+							<rich:panel header="Cliente">
+								<f:facet name="header">
+									<rich:spacer height="4" />
+								</f:facet>
+								<h:panelGrid columns="2">
+
+									<h:outputText value="Nome:" style="font-weight: bold;"/>
+									<h:outputText value="#{cliente.nome}" />
+
+									<h:outputLabel value="CPF:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.cpf}" />
+
+								</h:panelGrid>
+							</rich:panel>
+						</rich:tab>
+						<rich:tab label="Ordem de Serviços">
+							<h:outputText value="#{cliente.tel}" />
+						</rich:tab>
+					</rich:tabPanel>
+
+
+
+
+				</a4j:outputPanel>
+			</rich:modalPanel>
+
+
 		</a4j:form>
 
 
