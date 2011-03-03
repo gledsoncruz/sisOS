@@ -64,7 +64,8 @@ public class ClienteAction extends BaseAction{
 		return this.clienteService.carregarTodos();
 	}
 	
-	@Begin(join = true)
+	
+	@End
 	public void selecionarCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
