@@ -40,7 +40,11 @@
 		<br />
 
 		<a4j:form id="frmTabelaCliente">
-			<h:outputText value="Consulte o cliente desejado:" />
+			<h:panelGrid columns="3">
+				<h:outputText value="Cliente desejado:" />
+				<h:inputText id="buscaCliente" value="#{servicoAction.buscaCliente}"/>
+				<a4j:commandButton value="Consultar" action="#{servicoAction.complete(servicoAction.buscaCliente)}" reRender="simpletable"/>
+			</h:panelGrid>
 			<rich:spacer width="5px" />
 			<br />
 			<br />
@@ -87,7 +91,7 @@
 						onclick="Richfaces.showModalPanel('mdCliente');"
 						reRender="detalhesCliente">
 						<h:graphicImage value="/img/ico_busca_24.gif"
-							style="border: none;" alt="Alterar" title="Alterar Registro"
+							style="border: none;" alt="Detalhes" title="Visualizar Detalhes"
 							width="16px" />
 					</a4j:commandLink>
 				</rich:column>
@@ -135,11 +139,41 @@
 								</f:facet>
 								<h:panelGrid columns="2">
 
-									<h:outputText value="Nome:" style="font-weight: bold;"/>
+									<h:outputText value="Nome:" style="font-weight: bold;" />
 									<h:outputText value="#{cliente.nome}" />
 
 									<h:outputLabel value="CPF:" style="font-weight: bold;" />
 									<h:outputText value="#{cliente.cpf}" />
+
+									<h:outputLabel value="Endereço:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.endereco}" />
+
+									<h:outputLabel value="Numero:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.numero}" />
+
+									<h:outputLabel value="Complemento:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.complemento}" />
+
+									<h:outputLabel value="Bairro:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.bairro}" />
+
+									<h:outputLabel value="Cidade:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.cidade}" />
+
+									<h:outputLabel value="Estado:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.estado.valor}" />
+
+									<h:outputLabel value="CEP:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.cep}" />
+
+									<h:outputLabel value="Telefone:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.tel}" />
+
+									<h:outputLabel value="Celular:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.cel}" />
+
+									<h:outputLabel value="Email:" style="font-weight: bold;" />
+									<h:outputText value="#{cliente.email}" />
 
 								</h:panelGrid>
 							</rich:panel>
