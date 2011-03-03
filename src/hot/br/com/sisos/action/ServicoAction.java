@@ -26,8 +26,19 @@ public class ServicoAction extends BaseAction {
 	private ServicoService servicoService;
 	@In
 	private ClienteService clienteService;
+	
+	private String buscaCliente;
+	
 
 	
+	public String getBuscaCliente() {
+		return buscaCliente;
+	}
+
+	public void setBuscaCliente(String buscaCliente) {
+		this.buscaCliente = buscaCliente;
+	}
+
 	public Servico getServico() {
 		return servico;
 	}
@@ -38,7 +49,13 @@ public class ServicoAction extends BaseAction {
 
 	public List<Cliente> complete(Object event) {
 		String texto = event.toString();
-		List<Cliente> clientes = this.clienteService.carregarAutoComplete(texto);
+		List<Cliente> clientes = this.clienteService.carregarClienteLike(texto);
+		return clientes;
+
+	}
+	
+	public List<Cliente> complete(String texto) {		
+		List<Cliente> clientes = this.clienteService.carregarClienteLike(texto);
 		return clientes;
 
 	}
