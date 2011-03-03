@@ -47,7 +47,7 @@ public class ClienteService extends BaseService implements BaseInterfaceService<
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Cliente> carregarAutoComplete(String param) {
+	public List<Cliente> carregarClienteLike(String param) {
 		Criteria criteria = hibernateSession.createCriteria(Cliente.class);
 		criteria.add(Restrictions.like("nome", param, MatchMode.START).ignoreCase());
 		return criteria.list();
