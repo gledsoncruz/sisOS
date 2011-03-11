@@ -2,7 +2,10 @@ package br.com.sisos.action;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+
 import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
@@ -22,22 +25,11 @@ public class ServicoAction extends BaseAction {
 	@In(create = true)
 	@Out(scope = ScopeType.CONVERSATION, required = false)
 	private Servico servico;
+
 	@In
 	private ServicoService servicoService;
 	@In
 	private ClienteService clienteService;
-	
-	private String buscaCliente;
-	
-
-	
-	public String getBuscaCliente() {
-		return buscaCliente;
-	}
-
-	public void setBuscaCliente(String buscaCliente) {
-		this.buscaCliente = buscaCliente;
-	}
 
 	public Servico getServico() {
 		return servico;
@@ -53,11 +45,14 @@ public class ServicoAction extends BaseAction {
 		return clientes;
 
 	}
-	
-	public List<Cliente> complete(String texto) {		
-		List<Cliente> clientes = this.clienteService.carregarClienteLike(texto);
-		return clientes;
 
+	@Begin(join = true)
+	public void salvar(Servico servico) {
+
+		
+		this.servicoService.salvar(servico);
+		this.servico = new Servico();
+		this.addMsgBundle(FacesMessage.SEVERITY_INFO, "crudSaveSucess");
 	}
 
 }
