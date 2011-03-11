@@ -18,16 +18,36 @@ import br.com.sisos.services.ClienteService;
 
 @Name(value = "clienteAction")
 @Scope(ScopeType.PAGE)
-public class ClienteAction extends BaseAction{
+public class ClienteAction extends BaseAction {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@In(create = true)
 	@Out(scope = ScopeType.CONVERSATION, required = false)
 	private Cliente cliente;
 	@In
 	private ClienteService clienteService;
+	private String buscaCliente;
+
+	private List<Cliente> clientes;
 	
+	
+
+	public String getBuscaCliente() {
+		return buscaCliente;
+	}
+
+	public void setBuscaCliente(String buscaCliente) {
+		this.buscaCliente = buscaCliente;
+	}
+
+	public List<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
 
 	public Cliente getCliente() {
 		return cliente;
@@ -36,56 +56,66 @@ public class ClienteAction extends BaseAction{
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+
 	@Begin(join = true)
 	@Restrict("#{!s:hasRole('demo')}")
-	public void salvar(Cliente cliente){
-		
+	public void salvar(Cliente cliente) {
+
 		this.clienteService.salvar(cliente);
 		this.cliente = new Cliente();
 		this.addMsgBundle(FacesMessage.SEVERITY_INFO, "crudSaveSucess");
-		
+
 	}
-	
+
 	@End
-	public void alterar(Cliente cliente){
-		
+	public void alterar(Cliente cliente) {
+
 		this.clienteService.alterar(cliente);
 		this.cliente = new Cliente();
 		this.addMsgBundle(FacesMessage.SEVERITY_INFO, "crudEditSucess");
 	}
-	
+
 	@End
-	public void cancelar(){
-		this.cliente = new Cliente();		
+	public void cancelar() {
+		this.cliente = new Cliente();
 	}
-	
+
 	public List<Cliente> carregarTodos() {
 		return this.clienteService.carregarTodos();
 	}
-	
-	
+
 	@End
 	public void selecionarCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+
 	public void excluir(Cliente cliente) {
 		this.clienteService.excluir(cliente);
 		this.cliente = new Cliente();
 		this.facesMessages.add("Deletado com sucesso");
 	}
-	
-	@Begin(join=true)
-	public boolean converterPFJ(){
-		
-		if (this.cliente.getTipoPessoa().getValor().equals("Fisica")){
+
+	@Begin(join = true)
+	public boolean converterPFJ() {
+
+		if (this.cliente.getTipoPessoa().getValor().equals("Fisica")) {
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
-	
+
+	@Begin(join = true)
+	public List<Cliente> complete(String texto) {
+		this.clientes = this.clienteService.carregarClienteLike(texto);
+		if (!texto.isEmpty()) {
+			this.buscaCliente = "";
+			return this.clientes;
+		}
+
+		return this.clienteService.carregarTodos();
+
+	}
 
 }
