@@ -41,17 +41,26 @@
 
 		<a4j:form id="frmTabelaCliente">
 			<h:panelGrid columns="3">
-				<h:outputText value="Cliente desejado:" />
-				<h:inputText id="buscaCliente" value="#{servicoAction.buscaCliente}"/>
-				<a4j:commandButton value="Consultar" action="#{servicoAction.complete(servicoAction.buscaCliente)}" reRender="simpletable"/>
+				<a4j:region id="busca">
+					<h:outputText value="Cliente desejado:" />
+					<h:inputText id="buscaCliente"
+						value="#{clienteAction.buscaCliente}" />
+					<a4j:commandButton value="Consultar"
+						action="#{clienteAction.complete(clienteAction.buscaCliente)}"
+						reRender="frmTabelaCliente" />
+					<a4j:status for="busca">
+						<f:facet name="start">
+							<h:graphicImage value="/img/carregando_.gif" />
+						</f:facet>
+					</a4j:status>
+				</a4j:region>
 			</h:panelGrid>
 			<rich:spacer width="5px" />
 			<br />
 			<br />
-			<rich:dataTable value="#{clienteAction.carregarTodos()}"
-				var="cliente" rows="10" reRender="ds" id="simpletable"
-				rendered="#{clienteAction.carregarTodos().size > 0}"
-				columnClasses="center"
+			<rich:dataTable value="#{clienteAction.clientes}" var="cliente"
+				rows="10" reRender="ds" id="simpletable"
+				rendered="#{clienteAction.clientes.size > 0}" columnClasses="center"
 				onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
 				onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
 				<f:facet name="header">
@@ -99,11 +108,18 @@
 					<f:facet name="header">
 						<h:outputText value="Nova OS" />
 					</f:facet>
-					<a4j:commandLink reRender="simpletable"
-						onclick="Richfaces.showModalPanel('mdCliente');">
+					<a4j:commandLink reRender="detalhesOS"
+						action="#{clienteAction.selecionarCliente(cliente)}"
+						onclick="Richfaces.showModalPanel('mdOS');">
 						<h:graphicImage value="/img/ico_novo_24.gif" style="border: none;"
 							alt="Nova OS" title="Nova OS" width="16px" />
 					</a4j:commandLink>
+					
+										
+					<s:link view="/faces/servico/novo.xhtml" value="Novo">]
+					<f:param id="idTecnico" value="#{identity.usuario.id}" name="idTecnico"/>
+					<f:param id="idCliente" value="#{cliente.id}" name="idCliente"/>
+					</s:link>
 				</rich:column>
 
 
@@ -112,10 +128,15 @@
 				</f:facet>
 			</rich:dataTable>
 
+			<s:fragment rendered="#{clienteAction.clientes.size == 0}">
+				<h:outputText
+					value="Não foram encontrados registros para essa consulta." />
+			</s:fragment>
 
-			<!-- FORM MODAL PARA APRESENTACAO DE ITEMS DE ACORDO COM O EVENTO -->
 
-			<rich:modalPanel id="mdCliente" width="1000" height="400">
+			<!-- FORM MODAL PARA APRESENTACAO DE CLIENTES E SUAS RESPECTIVAS ORDEM DE SERVICOS -->
+
+			<rich:modalPanel id="mdCliente" width="1000" height="350">
 				<f:facet name="header">
 					<h:panelGroup>
 						<h:outputText value="Detalhes Cliente"></h:outputText>
@@ -137,6 +158,8 @@
 								<f:facet name="header">
 									<rich:spacer height="4" />
 								</f:facet>
+
+
 								<h:panelGrid columns="2">
 
 									<h:outputText value="Nome:" style="font-weight: bold;" />
@@ -176,7 +199,14 @@
 									<h:outputText value="#{cliente.email}" />
 
 								</h:panelGrid>
+
 							</rich:panel>
+							<div style="text-align: center;"><h:commandButton
+								value="Fechar" id="fechar">
+
+								<rich:componentControl for="mdCliente" attachTo="fechar"
+									operation="hide" event="onclick" />
+							</h:commandButton></div>
 						</rich:tab>
 						<rich:tab label="Ordem de Serviços">
 							<h:outputText value="#{cliente.tel}" />
@@ -188,7 +218,6 @@
 
 				</a4j:outputPanel>
 			</rich:modalPanel>
-
 
 		</a4j:form>
 
