@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	template="/layout/template.xhtml">
+
+	<ui:define name="body">
+		<s:link view="/faces/servico/servico.xhtml" value="Voltar" />
+<br />
+<br />
+
+		<a4j:form id="usuarioForm">
+			<p:messages globalOnly="true" styleClass="message" />
+			<rich:simpleTogglePanel switchType="client">
+				<f:facet name="header">Nova OS</f:facet>
+				<div style="clear: both" />
+
+				<a4j:outputPanel id="detalhesOS">
+				
+				<h:inputHidden value="#{cliente.id}" id="clienteId"/>
+				<h:inputHidden value="#{identity.usuario.id}" id="tecnicoId"/>
+
+					<s:decorate id="numeroOSField" template="/layout/edit.xhtml">
+						<ui:define name="label">Numero OS:</ui:define>
+						<h:inputText id="numeroOS" size="10"
+							value="#{servico.numOrdemServico}" required="true">
+							<a4j:support event="onblur" reRender="numeroOSField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputText>
+					</s:decorate>
+
+					<s:decorate id="dtaAtendimentoField" template="/layout/edit.xhtml">
+						<ui:define name="label">Data Atendimento:</ui:define>
+						<rich:calendar value="#{servico.dtaAtendimento}"
+							id="dtaAtendimento" datePattern="dd/MM/yyyy">
+							<a4j:support event="onblur" reRender="dtaAtendimentoField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</rich:calendar>
+					</s:decorate>
+
+					<s:decorate id="descrEquipamentoField"
+						template="/layout/edit.xhtml">
+						<ui:define name="label">Descrição do Equipamento:</ui:define>
+						<h:inputTextarea id="descEquipamento"
+							value="#{servico.descrEquipamento}" required="true" cols="50"
+							rows="3">
+							<a4j:support event="onblur" reRender="descrEquipamentoField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputTextarea>
+					</s:decorate>
+
+					<s:decorate id="marcaField" template="/layout/edit.xhtml">
+						<ui:define name="label">Marca:</ui:define>
+						<h:inputText id="marca" size="10" value="#{servico.marca}"
+							required="true">
+							<a4j:support event="onblur" reRender="marcaField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputText>
+					</s:decorate>
+
+					<s:decorate id="modeloField" template="/layout/edit.xhtml">
+						<ui:define name="label">Modelo:</ui:define>
+						<h:inputText id="modelo" size="10" value="#{servico.modelo}"
+							required="true">
+							<a4j:support event="onblur" reRender="modeloField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputText>
+					</s:decorate>
+
+					<s:decorate id="dtaEntradaField" template="/layout/edit.xhtml">
+						<ui:define name="label">Data Entrada:</ui:define>
+						<rich:calendar value="#{servico.dtaEntrada}" id="dtaEntrada"
+							datePattern="dd/MM/yyyy">
+							<a4j:support event="onblur" reRender="dtaEntradaField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</rich:calendar>
+					</s:decorate>
+
+					<s:decorate id="dtaSaidaField" template="/layout/edit.xhtml">
+						<ui:define name="label">Data Saida:</ui:define>
+						<rich:calendar value="#{servico.dtaSaida}" id="dtaSaida"
+							datePattern="dd/MM/yyyy">
+							<a4j:support event="onblur" reRender="dtaSaidaField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</rich:calendar>
+					</s:decorate>
+
+					<s:decorate id="defeitoDeclaradoField"
+						template="/layout/edit.xhtml">
+						<ui:define name="label">Defeito declarado:</ui:define>
+						<h:inputTextarea id="defeitoDeclarado"
+							value="#{servico.defeitoDeclarado}" required="true" cols="50"
+							rows="3">
+							<a4j:support event="onblur" reRender="defeitoDeclaradoField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputTextarea>
+					</s:decorate>
+
+					<s:decorate id="defeitoEncontradoField"
+						template="/layout/edit.xhtml">
+						<ui:define name="label">Defeito encontrado:</ui:define>
+						<h:inputTextarea id="defeitoEncontrado"
+							value="#{servico.defeitoEncontrado}" required="true" cols="50"
+							rows="3">
+							<a4j:support event="onblur" reRender="defeitoEncontradoField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputTextarea>
+					</s:decorate>
+
+					<s:decorate id="solucaoField" template="/layout/edit.xhtml">
+						<ui:define name="label">Solução:</ui:define>
+						<h:inputTextarea id="solucao" value="#{servico.solucao}"
+							required="true" cols="50" rows="3">
+							<a4j:support event="onblur" reRender="solucaoField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputTextarea>
+					</s:decorate>
+
+					<s:decorate id="valorMaoObraField" template="/layout/edit.xhtml">
+						<ui:define name="label">Valor Mão de Obra:</ui:define>
+						<h:inputText id="valorMaoObra" size="10"
+							value="#{servico.valorMaoObra}" required="true">
+							<a4j:support event="onblur" reRender="valorMaoObraField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputText>
+					</s:decorate>
+
+					<s:decorate id="observacaoField" template="/layout/edit.xhtml">
+						<ui:define name="label">Observação:</ui:define>
+						<h:inputTextarea id="observacao" value="#{servico.observacao}"
+							required="true" cols="50" rows="3">
+							<a4j:support event="onblur" reRender="observacaoField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:inputTextarea>
+					</s:decorate>
+
+					<br />
+					<br />
+					<div style="clear: both"><span class="required">*</span>
+					Campos requeridos</div>
+
+					<div style="clear: both" />
+					<br />
+					<br />
+
+					<div class="actionButtons"><a4j:commandButton value="Inserir"
+						style=" width : 100px;" action="#{servicoAction.salvar(servico)}"
+						rendered="#{tecnico.id == null}"
+						reRender="usuarioForm, frmTabelaTec" /> <a4j:commandButton
+						value="Editar" style=" width : 100px;"
+						action="#{tecnicoAction.alterar(tecnico)}"
+						rendered="#{tecnico.id != null}"
+						reRender="usuarioForm, frmTabelaTec" /> <a4j:commandButton
+						value="#{messages['btnCancel']}" style="width : 100px;"
+						action="#{tecnicoAction.cancelar()}"
+						rendered="#{tecnico.id != null}" reRender="usuarioForm"
+						ajaxSingle="true" /></div>
+
+
+
+
+				</a4j:outputPanel>
+			</rich:simpleTogglePanel>
+		</a4j:form>
+
+	</ui:define>
+
+</ui:composition>
+
