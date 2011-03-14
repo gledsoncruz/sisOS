@@ -11,8 +11,8 @@
 
 	<ui:define name="body">
 		<s:link view="/faces/servico/servico.xhtml" value="Voltar" />
-<br />
-<br />
+		<br />
+		<br />
 
 		<a4j:form id="usuarioForm">
 			<p:messages globalOnly="true" styleClass="message" />
@@ -21,9 +21,6 @@
 				<div style="clear: both" />
 
 				<a4j:outputPanel id="detalhesOS">
-				
-				<h:inputHidden value="#{cliente.id}" id="clienteId"/>
-				<h:inputHidden value="#{identity.usuario.id}" id="tecnicoId"/>
 
 					<s:decorate id="numeroOSField" template="/layout/edit.xhtml">
 						<ui:define name="label">Numero OS:</ui:define>
@@ -139,6 +136,34 @@
 						</h:inputTextarea>
 					</s:decorate>
 
+					<s:decorate id="tipoServicoField" template="/layout/edit.xhtml">
+						<ui:define name="label">Tipo Serviço:</ui:define>
+						<h:selectOneMenu value="#{servico.tipoServico}" required="true"
+							label="Evento" id="evento">
+							<s:selectItems var="servicov"
+								value="#{tipoServicoAction.carregarTodos()}"
+								label="#{servicov.descricao}" noSelectionLabel="-- Selecione --"></s:selectItems>
+							<s:convertEntity></s:convertEntity>
+							<a4j:support event="onblur" reRender="tipoServicoField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:selectOneMenu>
+					</s:decorate>
+					
+					<s:decorate id="statusServicoField" template="/layout/edit.xhtml">
+						<ui:define name="label">Status Serviço:</ui:define>
+						<h:selectOneMenu value="#{servico.servicoStatus}" required="true"
+							label="Evento" id="evento">
+							<s:selectItems var="status"
+								value="#{servicoStatusAction.carregarTodos()}"
+								label="#{status.descricao}" noSelectionLabel="-- Selecione --"></s:selectItems>
+							<s:convertEntity></s:convertEntity>
+							<a4j:support event="onblur" reRender="statusServicoField"
+								bypassUpdates="true" ajaxSingle="true" />
+						</h:selectOneMenu>
+					</s:decorate>
+
+
+
 					<br />
 					<br />
 					<div style="clear: both"><span class="required">*</span>
@@ -148,22 +173,27 @@
 					<br />
 					<br />
 
-					<div class="actionButtons"><a4j:commandButton value="Inserir"
+					<div class="actionButtons">
+					<a4j:commandButton value="Inserir"
 						style=" width : 100px;" action="#{servicoAction.salvar(servico)}"
 						rendered="#{tecnico.id == null}"
-						reRender="usuarioForm, frmTabelaTec" /> <a4j:commandButton
+						reRender="usuarioForm, frmTabelaTec">
+						<a4j:actionparam name="idCliente" value="#{servicoAction.idCliente}" assignTo="#{servicoAction.idCliente}"/>
+						<a4j:actionparam name="idTecnico" value="#{servicoAction.idTecnico}" assignTo="#{servicoAction.idTecnico}"/>						
+					</a4j:commandButton>
+					 
+					<a4j:commandButton
 						value="Editar" style=" width : 100px;"
 						action="#{tecnicoAction.alterar(tecnico)}"
 						rendered="#{tecnico.id != null}"
-						reRender="usuarioForm, frmTabelaTec" /> <a4j:commandButton
+						reRender="usuarioForm, frmTabelaTec" />
+					 
+					<a4j:commandButton
 						value="#{messages['btnCancel']}" style="width : 100px;"
 						action="#{tecnicoAction.cancelar()}"
 						rendered="#{tecnico.id != null}" reRender="usuarioForm"
 						ajaxSingle="true" /></div>
-
-
-
-
+						
 				</a4j:outputPanel>
 			</rich:simpleTogglePanel>
 		</a4j:form>

@@ -108,17 +108,12 @@
 					<f:facet name="header">
 						<h:outputText value="Nova OS" />
 					</f:facet>
-					<a4j:commandLink reRender="detalhesOS"
-						action="#{clienteAction.selecionarCliente(cliente)}"
-						onclick="Richfaces.showModalPanel('mdOS');">
+					<s:link view="/faces/servico/novo.xhtml">
+						<f:param id="idTecnico" value="#{identity.usuario.id}"
+							name="idTecnico" />
+						<f:param id="idCliente" value="#{cliente.id}" name="idCliente" />
 						<h:graphicImage value="/img/ico_novo_24.gif" style="border: none;"
 							alt="Nova OS" title="Nova OS" width="16px" />
-					</a4j:commandLink>
-					
-										
-					<s:link view="/faces/servico/novo.xhtml" value="Novo">]
-					<f:param id="idTecnico" value="#{identity.usuario.id}" name="idTecnico"/>
-					<f:param id="idCliente" value="#{cliente.id}" name="idCliente"/>
 					</s:link>
 				</rich:column>
 
@@ -209,7 +204,81 @@
 							</h:commandButton></div>
 						</rich:tab>
 						<rich:tab label="Ordem de Serviços">
-							<h:outputText value="#{cliente.tel}" />
+							<rich:dataTable
+								value="#{cliente.servicos}"
+								var="servico" rows="10" reRender="dsServicos" id="simpletableServicos"
+								rendered="#{cliente.servicos.size > 0}"
+								columnClasses="center"
+								onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
+								onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
+								<f:facet name="header">
+									<h:outputText value="Serviços" />
+								</f:facet>
+								<rich:column sortBy="#{servico.numOrdemServico}">
+									<f:facet name="header">
+										<h:outputText value="Número OS" />
+									</f:facet>
+									<h:outputText value="#{servico.numOrdemServico}" />
+								</rich:column>
+
+								<rich:column sortBy="#{servico.descrEquipamento}">
+									<f:facet name="header">
+										<h:outputText value="Descrição Equipamento" />
+									</f:facet>
+									<h:outputText value="#{servico.descrEquipamento}" />
+								</rich:column>
+
+								<rich:column sortBy="#{servico.marca}">
+									<f:facet name="header">
+										<h:outputText value="Marca" />
+									</f:facet>
+									<h:outputText value="#{servico.marca}" />
+								</rich:column>
+
+								<rich:column sortBy="#{servico.modelo}">
+									<f:facet name="header">
+										<h:outputText value="Modelo" />
+									</f:facet>
+									<h:outputText value="#{servico.modelo}" />
+								</rich:column>
+
+								<rich:column sortBy="#{servico.defeitoDeclarado}">
+									<f:facet name="header">
+										<h:outputText value="Defeito Declarado" />
+									</f:facet>
+									<h:outputText value="#{servico.defeitoDeclarado}" />
+								</rich:column>
+								
+								<rich:column sortBy="#{servico.tecnico.nome}">
+									<f:facet name="header">
+										<h:outputText value="Técnico Responsável" />
+									</f:facet>
+									<h:outputText value="#{servico.tecnico.nome}" />
+								</rich:column>
+
+								<rich:column sortBy="#{servico.tipoServico.descricao}">
+									<f:facet name="header">
+										<h:outputText value="Tipo Serviço" />
+									</f:facet>
+									<h:outputText value="#{servico.tipoServico.descricao}" />
+								</rich:column>
+
+								<rich:column sortBy="#{servico.servicoStatus.descricao}">
+									<f:facet name="header">
+										<h:outputText value="Status Serviço" />
+									</f:facet>
+									<h:outputText value="#{servico.servicoStatus.descricao}" />
+								</rich:column>
+
+
+								<f:facet name="footer">
+									<rich:datascroller id="dsServicos"></rich:datascroller>
+								</f:facet>
+							</rich:dataTable>
+							<s:fragment
+								rendered="#{cliente.servicos.size == 0}">
+						Não existem serviços para esse cliente.
+					</s:fragment>
 						</rich:tab>
 					</rich:tabPanel>
 

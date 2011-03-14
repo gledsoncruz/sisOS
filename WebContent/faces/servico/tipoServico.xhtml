@@ -13,10 +13,10 @@
 	<ui:define name="body">
 
 
-		<a4j:form id="servicoStatusForm">
+		<a4j:form id="tipoServicoForm">
 			<p:messages globalOnly="true" styleClass="message" />
 			<rich:simpleTogglePanel switchType="client">
-				<f:facet name="header">Status Serviço</f:facet>
+				<f:facet name="header">Tipo Serviço</f:facet>
 				<div style="clear: both" />
 
 				
@@ -24,7 +24,7 @@
 					<s:decorate id="descricaoField" template="/layout/edit.xhtml">
 						<ui:define name="label">Descricao:</ui:define>
 						<h:inputText id="descricao" size="60"
-							value="#{servicoStatus.descricao}" required="true">
+							value="#{tipoServico.descricao}" required="true">
 							<a4j:support event="onblur" reRender="descricaoField"
 								bypassUpdates="true" ajaxSingle="true" />
 						</h:inputText>
@@ -41,18 +41,20 @@
 				<br />
 				<div class="actionButtons">
 				<a4j:commandButton value="Inserir"
-					style=" width : 100px;" action="#{servicoStatusAction.salvar(servicoStatus)}"
-					rendered="#{servicoStatus.id == null}"
-					reRender="servicoStatusForm, frmTabelaServicoStatus" /> 
+					style=" width : 100px;" action="#{tipoServicoAction.salvar(tipoServico)}"
+					rendered="#{tipoServico.id == null}"
+					reRender="tipoServicoForm, frmTabelaTipoServico" /> 
+					
 				<a4j:commandButton
 					value="Editar" style=" width : 100px;"
-					action="#{servicoStatusAction.alterar(servicoStatus)}"
-					rendered="#{servicoStatus.id != null}"
-					reRender="servicoStatusForm, frmTabelaServicoStatus" /> 
+					action="#{tipoServicoAction.alterar(tipoServico)}"
+					rendered="#{tipoServico.id != null}"
+					reRender="tipoServicoForm, frmTabelaTipoServico" /> 
+					
 				<a4j:commandButton
 					value="#{messages['btnCancel']}" style="width : 100px;"
-					action="#{servicoStatusAction.cancelar()}"
-					rendered="#{servicoStatus.id != null}" reRender="servicoStatusForm"
+					action="#{tipoServicoAction.cancelar()}"
+					rendered="#{tipoServico.id != null}" reRender="tipoServicoForm"
 					ajaxSingle="true" /></div>
 
 
@@ -65,23 +67,23 @@
 		<br />
 		<br />
 		
-		<a4j:form id="frmTabelaServicoStatus"
+		<a4j:form id="frmTabelaTipoServico"
 			rendered="#{!identity.hasRole('tecnico')}">
 
-			<rich:dataTable value="#{servicoStatusAction.carregarTodos()}"
-				var="servicoStatus" rows="10" reRender="ds" id="simpletable"
-				rendered="#{servicoStatusAction.carregarTodos().size > 0}"
+			<rich:dataTable value="#{tipoServicoAction.carregarTodos()}"
+				var="tipoServico" rows="10" reRender="ds" id="simpletable"
+				rendered="#{tipoServicoAction.carregarTodos().size > 0}"
 				columnClasses="center"
 				onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
 				onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
 				<f:facet name="header">
-					<h:outputText value="Status Serviço" />
+					<h:outputText value="Tipo Serviço" />
 				</f:facet>
-				<rich:column sortBy="#{servicoStatus.descricao}">
+				<rich:column sortBy="#{tipoServico.descricao}">
 					<f:facet name="header">
 						<h:outputText value="Descrição" />
 					</f:facet>
-					<h:outputText value="#{servicoStatus.descricao}" />
+					<h:outputText value="#{tipoServico.descricao}" />
 				</rich:column>
 				
 				<rich:column style="text-align: center;" rendered="#{identity.hasRole('admin')}">
@@ -89,8 +91,8 @@
 						<h:outputText value="Editar" />
 					</f:facet>
 					<a4j:commandLink
-						action="#{servicoStatusAction.selecionarServicoStatus(servicoStatus)}"
-						reRender="servicoStatusForm">
+						action="#{tipoServicoAction.selecionarTipoServico(tipoServico)}"
+						reRender="tipoServicoForm">
 						<h:graphicImage value="/img/ico_altera_16.gif"
 							style="border: none;" alt="Alterar" title="Alterar Registro" />
 					</a4j:commandLink>
@@ -99,7 +101,7 @@
 					<f:facet name="header">
 						<h:outputText value="Apagar" />
 					</f:facet>
-					<a4j:commandLink action="#{servicoStatusAction.excluir(servicoStatus)}"
+					<a4j:commandLink action="#{tipoServicoAction.excluir(tipoServico)}"
 						reRender="simpletable"
 						onclick="if(!confirm('Confirma Exclus&#227;o?')){return false;}">
 						<h:graphicImage value="/img/ico_apaga_16.gif"
@@ -114,10 +116,6 @@
 			</rich:dataTable>
 
 
-			<s:fragment rendered="#{servicoStatusAction.carregarTodos().size > 0}">
-				<h:outputText
-					value="Total de Registros: #{servicoStatusAction.carregarTodos().size}" />
-			</s:fragment>
 
 		</a4j:form>
 
@@ -126,4 +124,3 @@
 	</ui:define>
 
 </ui:composition>
-
