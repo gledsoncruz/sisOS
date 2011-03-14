@@ -30,10 +30,8 @@ public class ClienteAction extends BaseAction {
 	private String buscaCliente;
 
 	private List<Cliente> clientes;
-	
-	
 
-	public String getBuscaCliente() {
+	public String getBuscaCliente() {		
 		return buscaCliente;
 	}
 
@@ -46,7 +44,9 @@ public class ClienteAction extends BaseAction {
 	}
 
 	public void setClientes(List<Cliente> clientes) {
-		this.clientes = clientes;
+		
+			this.clientes = clientes;
+		
 	}
 
 	public Cliente getCliente() {
@@ -80,11 +80,13 @@ public class ClienteAction extends BaseAction {
 		this.cliente = new Cliente();
 	}
 
+	
 	public List<Cliente> carregarTodos() {
+		 
 		return this.clienteService.carregarTodos();
 	}
 
-	@End
+	@Begin(join = true)
 	public void selecionarCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
@@ -108,13 +110,14 @@ public class ClienteAction extends BaseAction {
 
 	@Begin(join = true)
 	public List<Cliente> complete(String texto) {
-		this.clientes = this.clienteService.carregarClienteLike(texto);
+		
 		if (!texto.isEmpty()) {
+			this.clientes = this.clienteService.carregarClienteLike(texto);
 			this.buscaCliente = "";
 			return this.clientes;
 		}
-
-		return this.clienteService.carregarTodos();
+		this.clientes = this.clienteService.carregarTodos(); 
+		return this.clientes;
 
 	}
 
