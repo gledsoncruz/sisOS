@@ -29,7 +29,7 @@
 							label="#{tipoPessoa.valor}" />
 						<s:convertEnum />
 						<a4j:support event="onchange" reRender="pessoaField"
-							ajaxSingle="true" />
+							ajaxSingle="true" status="none"/>
 					</h:selectOneMenu>
 
 				</s:decorate>
@@ -39,7 +39,7 @@
 					<h:inputText id="name" size="50" value="#{cliente.nome}"
 						required="true">
 						<a4j:support event="onblur" reRender="nameField"
-							bypassUpdates="true" ajaxSingle="true" />
+							bypassUpdates="true" ajaxSingle="true" status="none"/>
 					</h:inputText>
 				</s:decorate>
 
@@ -50,7 +50,7 @@
 							required="#{not identity.hasRole('admin')}" id="cpf"
 							validator="#{validatorProject.validateCPF}">
 							<a4j:support event="onblur" reRender="cpfField"
-								bypassUpdates="true" ajaxSingle="true" eventsQueue="foo2" />
+								bypassUpdates="true" ajaxSingle="true" eventsQueue="foo2"/>
 						</p:inputMask>
 						<a4j:status for="valCPFCliente">
 							<f:facet name="start">
@@ -81,7 +81,7 @@
 					<p:inputMask id="tel" value="#{cliente.tel}"
 						required="#{not identity.hasRole('admin')}" mask="(99)9999-9999">
 						<a4j:support event="onblur" reRender="telField"
-							bypassUpdates="true" ajaxSingle="true" />
+							bypassUpdates="true" ajaxSingle="true" status="none"/>
 					</p:inputMask>
 				</s:decorate>
 
@@ -90,7 +90,7 @@
 					<p:inputMask id="cel" value="#{cliente.cel}"
 						required="#{not identity.hasRole('admin')}" mask="(99)9999-9999">
 						<a4j:support event="onblur" reRender="celField"
-							bypassUpdates="true" ajaxSingle="true" />
+							bypassUpdates="true" ajaxSingle="true" status="none"/>
 					</p:inputMask>
 				</s:decorate>
 
@@ -100,7 +100,7 @@
 					<h:inputText id="endereco" size="50" value="#{cliente.endereco}"
 						required="false">
 						<a4j:support event="onblur" reRender="enderecoField"
-							bypassUpdates="true" ajaxSingle="true" />
+							bypassUpdates="true" ajaxSingle="true" status="none"/>
 					</h:inputText>
 				</s:decorate>
 
@@ -109,7 +109,7 @@
 					<h:inputText id="numero" size="10" value="#{cliente.numero}"
 						required="false">
 						<a4j:support event="onblur" reRender="numeroField"
-							bypassUpdates="true" ajaxSingle="true" />
+							bypassUpdates="true" ajaxSingle="true"  status="none"/>
 					</h:inputText>
 				</s:decorate>
 
@@ -118,7 +118,7 @@
 					<h:inputText id="complemento" size="50"
 						value="#{cliente.complemento}" required="false">
 						<a4j:support event="onblur" reRender="complementoField"
-							bypassUpdates="true" ajaxSingle="true" />
+							bypassUpdates="true" ajaxSingle="true"  status="none"/>
 					</h:inputText>
 				</s:decorate>
 
@@ -127,7 +127,7 @@
 					<h:inputText id="bairro" size="50" value="#{cliente.bairro}"
 						required="false">
 						<a4j:support event="onblur" reRender="bairroField"
-							bypassUpdates="true" ajaxSingle="true" />
+							bypassUpdates="true" ajaxSingle="true"  status="none"/>
 					</h:inputText>
 				</s:decorate>
 
@@ -136,7 +136,7 @@
 					<h:inputText id="cidade" size="50" value="#{cliente.cidade}"
 						required="false">
 						<a4j:support event="onblur" reRender="cidadeField"
-							bypassUpdates="true" ajaxSingle="true" />
+							bypassUpdates="true" ajaxSingle="true"  status="none"/>
 					</h:inputText>
 				</s:decorate>
 
@@ -148,13 +148,13 @@
 						<s:convertEnum />
 					</h:selectOneMenu>
 					<a4j:support event="onblur" reRender="estadoField"
-						bypassUpdates="true" ajaxSingle="true" />
+						bypassUpdates="true" ajaxSingle="true"  status="none"/>
 				</s:decorate>
 
 				<s:decorate id="cepField" template="/layout/edit.xhtml">
 					<ui:define name="label">CEP</ui:define>
 					<p:inputMask value="#{cliente.cep}" mask="99.999-999"
-						required="false" id="cep" />
+						required="false" id="cep"  status="none"/>
 				</s:decorate>
 
 
