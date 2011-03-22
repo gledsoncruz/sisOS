@@ -36,11 +36,11 @@
 				<s:conversationPropagation type="end"></s:conversationPropagation>
 			</rich:menuItem>
 			<rich:menuItem value="Status Serviço"
-				action="/faces/servico/servicoStatus.xhtml">
+				action="/faces/servico/servicoStatus.xhtml" rendered="#{identity.hasRole('admin')}">
 				<s:conversationPropagation type="end"></s:conversationPropagation>
 			</rich:menuItem>
 			<rich:menuItem value="Tipo de Serviço"
-				action="/faces/servico/tipoServico.xhtml">
+				action="/faces/servico/tipoServico.xhtml" rendered="#{identity.hasRole('admin')}">
 				<s:conversationPropagation type="end"></s:conversationPropagation>
 			</rich:menuItem>
 			<rich:menuItem value="Peças"
