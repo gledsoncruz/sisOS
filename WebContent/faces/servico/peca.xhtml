@@ -19,27 +19,27 @@
 				<f:facet name="header">Peças</f:facet>
 				<div style="clear: both" />
 
-				
 
-					<s:decorate id="descricaoField" template="/layout/edit.xhtml">
-						<ui:define name="label">Descricao:</ui:define>
-						<h:inputText id="descricao" size="60"
-							value="#{peca.descricao}" required="true">
-							<a4j:support event="onblur" reRender="descricaoField"
-								bypassUpdates="true" ajaxSingle="true" />
-						</h:inputText>
-					</s:decorate>
-					
-					<s:decorate id="valorField" template="/layout/edit.xhtml">
-						<ui:define name="label">Valor:</ui:define>
-						<h:inputText id="valor" size="10"
-							value="#{peca.valor}" required="true">
-							<a4j:support event="onblur" reRender="valorField"
-								bypassUpdates="true" ajaxSingle="true" />
-						</h:inputText>
-					</s:decorate>
-					
-					
+
+				<s:decorate id="descricaoField" template="/layout/edit.xhtml">
+					<ui:define name="label">Descricao:</ui:define>
+					<h:inputText id="descricao" size="60" value="#{peca.descricao}"
+						required="true">
+						<a4j:support event="onblur" reRender="descricaoField"
+							bypassUpdates="true" ajaxSingle="true" status="none"/>
+					</h:inputText>
+				</s:decorate>
+
+				<s:decorate id="valorField" template="/layout/edit.xhtml">
+					<ui:define name="label">Valor:</ui:define>
+					<h:inputText id="valor" size="10" value="#{peca.valor}"
+						required="true">
+						<a4j:support event="onblur" reRender="valorField"
+							bypassUpdates="true" ajaxSingle="true" status="none"/>
+					</h:inputText>
+				</s:decorate>
+
+
 				<br />
 				<br />
 				<div style="clear: both"><span class="required">*</span>
@@ -48,41 +48,36 @@
 				<div style="clear: both" />
 				<br />
 				<br />
-				
+
 				<div class="actionButtons">
 				
-				<a4j:commandButton value="Inserir"
-					style=" width : 100px;" action="#{pecaAction.salvar(peca)}"
-					rendered="#{peca.id == null}"
-					reRender="pecaForm, frmTabelaPeca" />
-										
-					<a4j:commandButton
-					value="Editar" style=" width : 100px;"
-					action="#{pecaAction.alterar(peca)}"
-					rendered="#{peca.id != null}"
-					reRender="pecaForm, frmTabelaPeca" /> 
-					
-					<a4j:commandButton
+				
+					<a4j:commandButton value="Inserir" style=" width : 100px;"
+						action="#{pecaAction.salvar(peca)}" rendered="#{peca.id == null}"
+						reRender="pecaForm, frmTabelaPeca" />
+				
+				<a4j:commandButton value="Editar" style=" width : 100px;"
+					action="#{pecaAction.alterar(peca)}" rendered="#{peca.id != null}"
+					reRender="pecaForm, frmTabelaPeca" /> <a4j:commandButton
 					value="#{messages['btnCancel']}" style="width : 100px;"
-					action="#{pecaAction.cancelar()}"
-					rendered="#{peca.id != null}" reRender="pecaForm"
-					ajaxSingle="true" /></div>
+					action="#{pecaAction.cancelar()}" rendered="#{peca.id != null}"
+					reRender="pecaForm" ajaxSingle="true" /></div>
 
 
-			
+
 
 			</rich:simpleTogglePanel>
 		</a4j:form>
-		
+
 		<rich:spacer width="5px" />
 		<br />
 		<br />
-		
+
 		<a4j:form id="frmTabelaPeca"
 			rendered="#{!identity.hasRole('tecnico')}">
 
-			<rich:dataTable value="#{pecaAction.carregarTodos()}"
-				var="peca" rows="10" reRender="ds" id="simpletable"
+			<rich:dataTable value="#{pecaAction.carregarTodos()}" var="peca"
+				rows="10" reRender="ds" id="simpletable"
 				rendered="#{pecaAction.carregarTodos().size > 0}"
 				columnClasses="center"
 				onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
@@ -96,26 +91,27 @@
 					</f:facet>
 					<h:outputText value="#{peca.descricao}" />
 				</rich:column>
-				
+
 				<rich:column sortBy="#{peca.valor}">
 					<f:facet name="header">
 						<h:outputText value="Valor" />
 					</f:facet>
 					<h:outputText value="#{peca.valor}" />
 				</rich:column>
-				
-				<rich:column style="text-align: center;" rendered="#{identity.hasRole('admin')}">
+
+				<rich:column style="text-align: center;"
+					rendered="#{identity.hasRole('admin')}">
 					<f:facet name="header">
 						<h:outputText value="Editar" />
 					</f:facet>
-					<a4j:commandLink
-						action="#{pecaAction.selecionarPeca(peca)}"
+					<a4j:commandLink action="#{pecaAction.selecionarPeca(peca)}"
 						reRender="pecaForm">
 						<h:graphicImage value="/img/ico_altera_16.gif"
 							style="border: none;" alt="Alterar" title="Alterar Registro" />
 					</a4j:commandLink>
 				</rich:column>
-				<rich:column style="text-align: center;" rendered="#{identity.hasRole('admin')}">
+				<rich:column style="text-align: center;"
+					rendered="#{identity.hasRole('admin')}">
 					<f:facet name="header">
 						<h:outputText value="Apagar" />
 					</f:facet>

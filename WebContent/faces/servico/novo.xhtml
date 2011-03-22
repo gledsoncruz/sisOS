@@ -27,7 +27,7 @@
 						<h:inputText id="numeroOS" size="10"
 							value="#{servico.numOrdemServico}" required="true">
 							<a4j:support event="onblur" reRender="numeroOSField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputText>
 					</s:decorate>
 
@@ -36,7 +36,7 @@
 						<rich:calendar value="#{servico.dtaAtendimento}"
 							id="dtaAtendimento" datePattern="dd/MM/yyyy">
 							<a4j:support event="onblur" reRender="dtaAtendimentoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</rich:calendar>
 					</s:decorate>
 
@@ -47,7 +47,7 @@
 							value="#{servico.descrEquipamento}" required="true" cols="50"
 							rows="3">
 							<a4j:support event="onblur" reRender="descrEquipamentoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputTextarea>
 					</s:decorate>
 
@@ -56,7 +56,7 @@
 						<h:inputText id="marca" size="10" value="#{servico.marca}"
 							required="true">
 							<a4j:support event="onblur" reRender="marcaField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputText>
 					</s:decorate>
 
@@ -65,7 +65,7 @@
 						<h:inputText id="modelo" size="10" value="#{servico.modelo}"
 							required="true">
 							<a4j:support event="onblur" reRender="modeloField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputText>
 					</s:decorate>
 
@@ -74,7 +74,7 @@
 						<rich:calendar value="#{servico.dtaEntrada}" id="dtaEntrada"
 							datePattern="dd/MM/yyyy">
 							<a4j:support event="onblur" reRender="dtaEntradaField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</rich:calendar>
 					</s:decorate>
 
@@ -83,7 +83,7 @@
 						<rich:calendar value="#{servico.dtaSaida}" id="dtaSaida"
 							datePattern="dd/MM/yyyy">
 							<a4j:support event="onblur" reRender="dtaSaidaField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</rich:calendar>
 					</s:decorate>
 
@@ -94,7 +94,7 @@
 							value="#{servico.defeitoDeclarado}" required="true" cols="50"
 							rows="3">
 							<a4j:support event="onblur" reRender="defeitoDeclaradoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputTextarea>
 					</s:decorate>
 
@@ -105,7 +105,7 @@
 							value="#{servico.defeitoEncontrado}" required="true" cols="50"
 							rows="3">
 							<a4j:support event="onblur" reRender="defeitoEncontradoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputTextarea>
 					</s:decorate>
 
@@ -114,7 +114,7 @@
 						<h:inputTextarea id="solucao" value="#{servico.solucao}"
 							required="true" cols="50" rows="3">
 							<a4j:support event="onblur" reRender="solucaoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputTextarea>
 					</s:decorate>
 
@@ -123,7 +123,7 @@
 						<h:inputText id="valorMaoObra" size="10"
 							value="#{servico.valorMaoObra}" required="true">
 							<a4j:support event="onblur" reRender="valorMaoObraField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputText>
 					</s:decorate>
 
@@ -132,7 +132,7 @@
 						<h:inputTextarea id="observacao" value="#{servico.observacao}"
 							required="true" cols="50" rows="3">
 							<a4j:support event="onblur" reRender="observacaoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:inputTextarea>
 					</s:decorate>
 
@@ -145,7 +145,7 @@
 								label="#{servicov.descricao}" noSelectionLabel="-- Selecione --"></s:selectItems>
 							<s:convertEntity></s:convertEntity>
 							<a4j:support event="onblur" reRender="tipoServicoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:selectOneMenu>
 					</s:decorate>
 					
@@ -158,7 +158,7 @@
 								label="#{status.descricao}" noSelectionLabel="-- Selecione --"></s:selectItems>
 							<s:convertEntity></s:convertEntity>
 							<a4j:support event="onblur" reRender="statusServicoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true"  status="none"/>
 						</h:selectOneMenu>
 					</s:decorate>
 

@@ -26,7 +26,7 @@
 						<h:inputText id="descricao" size="60"
 							value="#{tipoServico.descricao}" required="true">
 							<a4j:support event="onblur" reRender="descricaoField"
-								bypassUpdates="true" ajaxSingle="true" />
+								bypassUpdates="true" ajaxSingle="true" status="none"/>
 						</h:inputText>
 					</s:decorate>
 					
@@ -102,7 +102,7 @@
 						<h:outputText value="Apagar" />
 					</f:facet>
 					<a4j:commandLink action="#{tipoServicoAction.excluir(tipoServico)}"
-						reRender="simpletable"
+						reRender="simpletable, tipoServicoForm"
 						onclick="if(!confirm('Confirma Exclus&#227;o?')){return false;}">
 						<h:graphicImage value="/img/ico_apaga_16.gif"
 							style="border: none;" alt="Excluir" title="Excluir Registro" />

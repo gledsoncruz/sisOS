@@ -10,205 +10,170 @@
 	template="/layout/template.xhtml">
 
 	<ui:define name="body">
-		<a4j:form id="servicoForm">
+
+		
 			<p:messages globalOnly="true" styleClass="message" />
-			<rich:simpleTogglePanel switchType="client"
-				rendered="#{identity.hasRole('admin')}">
-				<f:facet name="header">Servico</f:facet>
-
-				<s:decorate id="tecnicoField" template="/layout/edit.xhtml">
-					<ui:define name="label">Escolher Técnico</ui:define>
-					<a4j:region>
-						<h:selectOneMenu value="#{servico.tecnico}">
-							<s:selectItems var="tecnico"
-								value="#{tecnicoAction.carregarGrupoTecnico()}"
-								label="#{tecnico.nome}" noSelectionLabel="-- Selecione --"></s:selectItems>
-							<s:convertEntity></s:convertEntity>
-							<!-- a4j:support event="onchange"
-								action="#{inscricaoAction.carregarItemPorEvento(inscricao.evento)}"
-								reRender="oppItems, eventoField" ajaxSingle="true">
-							</a4j:support-->
-						</h:selectOneMenu>
-					</a4j:region>
-				</s:decorate>
-
-			</rich:simpleTogglePanel>
-		</a4j:form>
-
-		<rich:spacer width="5px" />
-		<br />
-		<br />
-
-		<a4j:form id="frmTabelaCliente">
-			<h:panelGrid columns="3">
-				<a4j:region id="busca">
-					<h:outputText value="Cliente desejado:" />
-					<h:inputText id="buscaCliente"
-						value="#{clienteAction.buscaCliente}" />
-					<a4j:commandButton value="Consultar"
-						action="#{clienteAction.complete(clienteAction.buscaCliente)}"
-						reRender="frmTabelaCliente" />
-					<a4j:status for="busca">
-						<f:facet name="start">
-							<h:graphicImage value="/img/carregando_.gif" />
+			<rich:simpleTogglePanel switchType="client">
+				<f:facet name="header">Serviço</f:facet>				
+				<h:form id="servicoForm">
+				<h:inputText value="#{identity.usuario.nome}" disabled="true"/>
+				<rich:spacer width="5px" />
+				<br />
+				<br />
+				<rich:dataTable value="#{servicoAction.carregarTodosClientes()}"
+					var="cliente" rows="10" reRender="ds" id="simpletable"
+					rendered="#{servicoAction.carregarTodosClientes().size > 0}"
+					columnClasses="center"
+					onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
+					onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
+					<f:facet name="header">
+						<h:outputText value="Cliente" />
+					</f:facet>
+					<rich:column sortBy="#{cliente.nome}" filterBy="#{cliente.nome}">
+						<f:facet name="header">
+							<h:outputText value="Nome" />
 						</f:facet>
-					</a4j:status>
-				</a4j:region>
-			</h:panelGrid>
-			<rich:spacer width="5px" />
-			<br />
-			<br />
-			<rich:dataTable value="#{clienteAction.clientes}" var="cliente"
-				rows="10" reRender="ds" id="simpletable"
-				rendered="#{clienteAction.clientes.size > 0}" columnClasses="center"
-				onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
-				onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
-				<f:facet name="header">
-					<h:outputText value="Cliente" />
-				</f:facet>
-				<rich:column sortBy="#{cliente.nome}">
-					<f:facet name="header">
-						<h:outputText value="Nome" />
+						<h:outputText value="#{cliente.nome}" />
+					</rich:column>
+					<rich:column sortBy="#{cliente.email}" filterBy="#{cliente.email}">
+						<f:facet name="header">
+							<h:outputText value="Email" />
+						</f:facet>
+						<h:outputText value="#{cliente.email}" />
+					</rich:column>
+					<rich:column sortBy="#{cliente.cpf}" filterBy="#{cliente.cpf}">
+						<f:facet name="header">
+							<h:outputText value="CPF" />
+						</f:facet>
+						<h:outputText value="#{cliente.cpf}" />
+					</rich:column>
+					<rich:column sortBy="#{cliente.tel}">
+						<f:facet name="header">
+							<h:outputText value="Telefone" />
+						</f:facet>
+						<h:outputText value="#{cliente.tel}" />
+					</rich:column>
+
+					<rich:column style="text-align: center;">
+						<f:facet name="header">
+							<h:outputText value="Visualizar" />
+						</f:facet>
+						<a4j:commandLink
+							action="#{servicoAction.selecionarCliente(cliente)}"
+							onclick="Richfaces.showModalPanel('mdCliente');"
+							reRender="detalhesCliente">
+							<h:graphicImage value="/img/ico_busca_24.gif"
+								style="border: none;" alt="Detalhes" title="Visualizar Detalhes"
+								width="16px" />
+						</a4j:commandLink>
+					</rich:column>					
+
+					<rich:column style="text-align: center;">
+						<f:facet name="header">
+							<h:outputText value="Nova OS" />
+						</f:facet>
+						<a4j:commandLink
+							action="#{servicoAction.selecionarCliente(cliente)}"
+							onclick="Richfaces.showModalPanel('mdOS');" reRender="frmNovaOS">
+							<h:graphicImage value="/img/ico_novo_24.gif"
+								style="border: none;" alt="Detalhes" title="Nova OS"
+								width="16px" />
+						</a4j:commandLink>
+					</rich:column>
+
+
+					<f:facet name="footer">
+						<rich:datascroller id="ds" renderIfSinglePage="false"></rich:datascroller>
 					</f:facet>
-					<h:outputText value="#{cliente.nome}" />
-				</rich:column>
-				<rich:column sortBy="#{cliente.email}">
-					<f:facet name="header">
-						<h:outputText value="Email" />
-					</f:facet>
-					<h:outputText value="#{cliente.email}" />
-				</rich:column>
-				<rich:column sortBy="#{cliente.cpf}">
-					<f:facet name="header">
-						<h:outputText value="CPF" />
-					</f:facet>
-					<h:outputText value="#{cliente.cpf}" />
-				</rich:column>
-				<rich:column sortBy="#{cliente.tel}">
-					<f:facet name="header">
-						<h:outputText value="Telefone" />
-					</f:facet>
-					<h:outputText value="#{cliente.tel}" />
-				</rich:column>
+				</rich:dataTable>
 
-				<rich:column style="text-align: center;">
-					<f:facet name="header">
-						<h:outputText value="Visualizar" />
-					</f:facet>
-					<a4j:commandLink
-						action="#{clienteAction.selecionarCliente(cliente)}"
-						onclick="Richfaces.showModalPanel('mdCliente');"
-						reRender="detalhesCliente">
-						<h:graphicImage value="/img/ico_busca_24.gif"
-							style="border: none;" alt="Detalhes" title="Visualizar Detalhes"
-							width="16px" />
-					</a4j:commandLink>
-				</rich:column>
-				<rich:column style="text-align: center;">
-					<f:facet name="header">
-						<h:outputText value="Nova OS" />
-					</f:facet>
-					<s:link view="/faces/servico/novo.xhtml">
-						<f:param id="idTecnico" value="#{identity.usuario.id}"
-							name="idTecnico" />
-						<f:param id="idCliente" value="#{cliente.id}" name="idCliente" />
-						<h:graphicImage value="/img/ico_novo_24.gif" style="border: none;"
-							alt="Nova OS" title="Nova OS" width="16px" />
-					</s:link>
-				</rich:column>
+				<s:fragment
+					rendered="#{servicoAction.carregarTodosClientes().size == 0}">
+					<h:outputText
+						value="Não foram encontrados registros para essa consulta." />
+				</s:fragment>
+				</h:form>
+			</rich:simpleTogglePanel>
+		
+		<!-- FORM MODAL PARA APRESENTACAO DE CLIENTES E SUAS RESPECTIVAS ORDEM DE SERVICOS -->
+
+		<rich:modalPanel id="mdCliente" width="1000" height="350">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="Detalhes Cliente"></h:outputText>
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close.png" styleClass="hidelink"
+						id="hidelink" />
+					<rich:componentControl for="mdCliente" attachTo="hidelink"
+						operation="hide" event="onclick" />
+				</h:panelGroup>
+			</f:facet>
+			<a4j:outputPanel id="detalhesCliente">
+
+				<rich:tabPanel switchType="client">
+					<rich:tab label="Informações do Cliente">
+						<rich:panel header="Cliente">
+							<f:facet name="header">
+								<rich:spacer height="4" />
+							</f:facet>
 
 
-				<f:facet name="footer">
-					<rich:datascroller id="ds"></rich:datascroller>
-				</f:facet>
-			</rich:dataTable>
+							<h:panelGrid columns="2">
 
-			<s:fragment rendered="#{clienteAction.clientes.size == 0}">
-				<h:outputText
-					value="Não foram encontrados registros para essa consulta." />
-			</s:fragment>
+								<h:outputText value="Nome:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.nome}" />
 
+								<h:outputLabel value="CPF:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.cpf}" />
 
-			<!-- FORM MODAL PARA APRESENTACAO DE CLIENTES E SUAS RESPECTIVAS ORDEM DE SERVICOS -->
+								<h:outputLabel value="Endereço:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.endereco}" />
 
-			<rich:modalPanel id="mdCliente" width="1000" height="350">
-				<f:facet name="header">
-					<h:panelGroup>
-						<h:outputText value="Detalhes Cliente"></h:outputText>
-					</h:panelGroup>
-				</f:facet>
-				<f:facet name="controls">
-					<h:panelGroup>
-						<h:graphicImage value="/img/close.png" styleClass="hidelink"
-							id="hidelink" />
-						<rich:componentControl for="mdCliente" attachTo="hidelink"
-							operation="hide" event="onclick" />
-					</h:panelGroup>
-				</f:facet>
-				<a4j:outputPanel id="detalhesCliente">
+								<h:outputLabel value="Numero:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.numero}" />
 
-					<rich:tabPanel switchType="client">
-						<rich:tab label="Informações do Cliente">
-							<rich:panel header="Cliente">
-								<f:facet name="header">
-									<rich:spacer height="4" />
-								</f:facet>
+								<h:outputLabel value="Complemento:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.complemento}" />
 
+								<h:outputLabel value="Bairro:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.bairro}" />
 
-								<h:panelGrid columns="2">
+								<h:outputLabel value="Cidade:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.cidade}" />
 
-									<h:outputText value="Nome:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.nome}" />
+								<h:outputLabel value="Estado:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.estado.valor}" />
 
-									<h:outputLabel value="CPF:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.cpf}" />
+								<h:outputLabel value="CEP:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.cep}" />
 
-									<h:outputLabel value="Endereço:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.endereco}" />
+								<h:outputLabel value="Telefone:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.tel}" />
 
-									<h:outputLabel value="Numero:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.numero}" />
+								<h:outputLabel value="Celular:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.cel}" />
 
-									<h:outputLabel value="Complemento:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.complemento}" />
+								<h:outputLabel value="Email:" style="font-weight: bold;" />
+								<h:outputText value="#{cliente.email}" />
 
-									<h:outputLabel value="Bairro:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.bairro}" />
+							</h:panelGrid>
 
-									<h:outputLabel value="Cidade:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.cidade}" />
+						</rich:panel>
+						<div style="text-align: center;"><h:commandButton
+							value="Fechar" id="fechar">
 
-									<h:outputLabel value="Estado:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.estado.valor}" />
-
-									<h:outputLabel value="CEP:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.cep}" />
-
-									<h:outputLabel value="Telefone:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.tel}" />
-
-									<h:outputLabel value="Celular:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.cel}" />
-
-									<h:outputLabel value="Email:" style="font-weight: bold;" />
-									<h:outputText value="#{cliente.email}" />
-
-								</h:panelGrid>
-
-							</rich:panel>
-							<div style="text-align: center;"><h:commandButton
-								value="Fechar" id="fechar">
-
-								<rich:componentControl for="mdCliente" attachTo="fechar"
-									operation="hide" event="onclick" />
-							</h:commandButton></div>
-						</rich:tab>
-						<rich:tab label="Ordem de Serviços">
-							<rich:dataTable
-								value="#{cliente.servicos}"
-								var="servico" rows="10" reRender="dsServicos" id="simpletableServicos"
-								rendered="#{cliente.servicos.size > 0}"
-								columnClasses="center"
+							<rich:componentControl for="mdCliente" attachTo="fechar"
+								operation="hide" event="onclick" />
+						</h:commandButton></div>
+					</rich:tab>
+					<rich:tab label="Ordem de Serviços">
+						<h:form>
+							<rich:dataTable value="#{cliente.servicos}" var="servico"
+								rows="10" reRender="dsServicos" id="simpletableServicos"
+								rendered="#{cliente.servicos.size > 0}" columnClasses="center"
 								onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
 								onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
 								<f:facet name="header">
@@ -248,7 +213,7 @@
 									</f:facet>
 									<h:outputText value="#{servico.defeitoDeclarado}" />
 								</rich:column>
-								
+
 								<rich:column sortBy="#{servico.tecnico.nome}">
 									<f:facet name="header">
 										<h:outputText value="Técnico Responsável" />
@@ -275,22 +240,160 @@
 									<rich:datascroller id="dsServicos"></rich:datascroller>
 								</f:facet>
 							</rich:dataTable>
-							<s:fragment
-								rendered="#{cliente.servicos.size == 0}">
+							<s:fragment rendered="#{cliente.servicos.size == 0}">
 						Não existem serviços para esse cliente.
 					</s:fragment>
-						</rich:tab>
-					</rich:tabPanel>
+						</h:form>
+					</rich:tab>
+				</rich:tabPanel>
+			</a4j:outputPanel>
+		</rich:modalPanel>
 
+		<!-- FORM MODAL PARA APRESENTACAO DE NOVA ORDEM DE SERVICOS -->
 
+		<rich:modalPanel id="mdOS" width="1000" height="490">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="Nova OS"></h:outputText>
+				</h:panelGroup>
+			</f:facet>
+			<f:facet name="controls">
+				<h:panelGroup>
+					<h:graphicImage value="/img/close.png" styleClass="hidelink"
+						id="hidelinkOS" />
+					<rich:componentControl for="mdOS" attachTo="hidelinkOS"
+						operation="hide" event="onclick" />
+				</h:panelGroup>
+			</f:facet>
+			
 
+				<rich:tabPanel switchType="client">
+					<rich:tab label="Informações sobre a OS">
+						<h:form id="frmNovaOS">
+							<s:decorate id="NumOSField" template="/layout/edit.xhtml">
+								<ui:define name="label">Num OS:</ui:define>
+								<h:outputText id="numOSGerado" value="#{servicoAction.gerarNumOS()}" />
+							</s:decorate>
+						
+							<s:decorate id="clienteNomeField" template="/layout/edit.xhtml">
+								<ui:define name="label">Cliente:</ui:define>
+								<h:outputText id="nomeCliente" value="#{cliente.nome}" />
+							</s:decorate>
 
-				</a4j:outputPanel>
-			</rich:modalPanel>
+							<s:decorate id="clienteCpfField" template="/layout/edit.xhtml">
+								<ui:define name="label">CPF:</ui:define>
+								<h:outputText id="cpfCliente" value="#{cliente.cpf}" />
+							</s:decorate>
 
-		</a4j:form>
+							<s:decorate id="tecnicoField" template="/layout/edit.xhtml"
+								rendered="#{identity.hasRole('admin')}">
+								<ui:define name="label">Escolher Técnico</ui:define>
+								<h:selectOneMenu value="#{servico.tecnico}">
+									<s:selectItems var="tecnico"
+										value="#{servicoAction.carregarTodosTecnicos()}"
+										label="#{tecnico.nome}" noSelectionLabel="-- Selecione --"></s:selectItems>
+									<s:convertEntity></s:convertEntity>
+									<a4j:support event="onblur" reRender="tecnicoField"
+										bypassUpdates="true" ajaxSingle="true" status="none" />
+								</h:selectOneMenu>
+							</s:decorate>
 
+							<s:decorate id="descrEquipamentoField"
+								template="/layout/edit.xhtml">
+								<ui:define name="label">Descrição do Equipamento:</ui:define>
+								<h:inputTextarea id="descEquipamento"
+									value="#{servico.descrEquipamento}" required="true" cols="70"
+									rows="2">
+									<a4j:support event="onblur" reRender="descrEquipamentoField"
+										bypassUpdates="true" ajaxSingle="true" status="none" />
+								</h:inputTextarea>
+							</s:decorate>
 
+							<s:decorate id="marcaField" template="/layout/edit.xhtml">
+								<ui:define name="label">Marca:</ui:define>
+								<h:inputText id="marca" size="20" value="#{servico.marca}"
+									required="true">
+									<a4j:support event="onblur" reRender="marcaField"
+										bypassUpdates="true" ajaxSingle="true" status="none" />
+								</h:inputText>
+							</s:decorate>
+
+							<s:decorate id="modeloField" template="/layout/edit.xhtml">
+								<ui:define name="label">Modelo:</ui:define>
+								<h:inputText id="modelo" size="10" value="#{servico.modelo}"
+									required="true">
+									<a4j:support event="onblur" reRender="modeloField"
+										bypassUpdates="true" ajaxSingle="true" status="none" />
+								</h:inputText>
+							</s:decorate>
+
+							<s:decorate id="defeitoDeclaradoField"
+								template="/layout/edit.xhtml">
+								<ui:define name="label">Defeito declarado:</ui:define>
+								<h:inputTextarea id="defeitoDeclarado"
+									value="#{servico.defeitoDeclarado}" required="true" cols="70"
+									rows="2">
+									<a4j:support event="onblur" reRender="defeitoDeclaradoField"
+										bypassUpdates="true" ajaxSingle="true" status="none" />
+								</h:inputTextarea>
+							</s:decorate>
+
+							<s:decorate id="tipoServicoField" template="/layout/edit.xhtml">
+								<ui:define name="label">Tipo Serviço:</ui:define>
+								<h:selectOneMenu value="#{servico.tipoServico}" required="true"
+									label="Evento" id="evento">
+									<s:selectItems var="servicov"
+										value="#{tipoServicoAction.carregarTodos()}"
+										label="#{servicov.descricao}"
+										noSelectionLabel="-- Selecione --"></s:selectItems>
+									<s:convertEntity></s:convertEntity>
+									<a4j:support event="onblur" reRender="tipoServicoField"
+										bypassUpdates="true" ajaxSingle="true" status="none" />
+								</h:selectOneMenu>
+							</s:decorate>
+
+							<s:decorate id="statusServicoField" template="/layout/edit.xhtml">
+								<ui:define name="label">Status Serviço:</ui:define>
+								<h:selectOneMenu value="#{servico.servicoStatus}"
+									required="true" label="Evento" id="evento">
+									<s:selectItems var="status"
+										value="#{servicoStatusAction.carregarTodos()}"
+										label="#{status.descricao}" noSelectionLabel="-- Selecione --"></s:selectItems>
+									<s:convertEntity></s:convertEntity>
+									<a4j:support event="onblur" reRender="statusServicoField"
+										bypassUpdates="true" ajaxSingle="true" status="none" />
+								</h:selectOneMenu>
+							</s:decorate>
+
+							<br />
+							<br />
+							<div style="clear: both"><span class="required">*</span>
+							Campos requeridos</div>
+
+							<div style="clear: both" />
+							<br />
+							<br />
+
+							<div class="actionButtons">
+							
+							<a4j:commandButton value="Inserir"
+								style=" width : 100px;"
+								action="#{servicoAction.salvar(servico)}"
+								rendered="#{servico.id == null}" reRender="frmNovaOS"/>
+							<a4j:commandButton value="Editar" style=" width : 100px;"
+								action="#{servicoAction.alterar(tecnico)}"
+								rendered="#{servico.id != null}" reRender="frmNovaOS" /> 
+							<a4j:commandButton
+								value="#{messages['btnCancel']}" style="width : 100px;"
+								action="#{servicoAction.cancelar()}"
+								rendered="#{servico.id != null}" reRender="frmNovaOS"
+								ajaxSingle="true" />
+							</div>
+						</h:form>
+					</rich:tab>
+				</rich:tabPanel>
+			
+		</rich:modalPanel>
 	</ui:define>
 </ui:composition>
 
