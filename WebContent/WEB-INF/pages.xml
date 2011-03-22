@@ -4,12 +4,8 @@
 	no-conversation-view-id="/home.xhtml" login-view-id="/login.xhtml">
 
 	<page view-id="/home.xhtml" login-required="true" />
+	<page view-id="/faces/*" login-required="true" />
 
-
-	<page view-id="/activate.xhtml" action="#{activationAction.ativarChave()}"/>
-		
-	
-		
 	<page view-id="*">
 		<navigation>
 			<rule if-outcome="home">
@@ -20,26 +16,7 @@
 			</rule>			
 		</navigation>
 	</page>
-	
-	<page view-id="/faces/inscricao/inscricao.xhtml">
-		<navigation>
-			<rule if-outcome="moip">
-				<redirect view-id="/faces/inscricao/moip.xhtml" />
-			</rule>
-			<rule if-outcome="empenho">
-				<redirect view-id="/faces/inscricao/empenho.xhtml" />
-			</rule>				
-		</navigation>
-	</page>
-	
-	<!-- page view-id="/faces/inscricao/moip.xhtml">
-		<navigation>					
-			<rule if-outcome="forwardMoip">			
-				<redirect view-id="https://desenvolvedor.moip.com.br/sandbox/PagamentoMoIP.do" />				
-			</rule>		
-		</navigation>
-	</page-->
-
+		
 
 	<exception class="org.jboss.seam.framework.EntityNotFoundException">
 		<redirect view-id="/error.xhtml">
