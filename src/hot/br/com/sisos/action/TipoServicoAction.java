@@ -36,6 +36,7 @@ public class TipoServicoAction extends BaseAction {
 		this.tipoServico = tipoServico;
 	}
 
+	@Begin (join = true)
 	public void salvar(TipoServico tipoServico) {
 
 		this.tipoServicoService.salvar(tipoServico);

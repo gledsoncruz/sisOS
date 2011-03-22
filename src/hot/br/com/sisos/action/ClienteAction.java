@@ -80,7 +80,7 @@ public class ClienteAction extends BaseAction {
 		this.cliente = new Cliente();
 	}
 
-	
+	@End
 	public List<Cliente> carregarTodos() {
 		 
 		return this.clienteService.carregarTodos();
@@ -90,6 +90,7 @@ public class ClienteAction extends BaseAction {
 	public void selecionarCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+
 
 	public void excluir(Cliente cliente) {
 		this.clienteService.excluir(cliente);

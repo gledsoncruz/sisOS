@@ -1,18 +1,23 @@
 package br.com.sisos.action;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Begin;
+import org.jboss.seam.annotations.End;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Out;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.annotations.web.RequestParameter;
+import org.jboss.seam.security.Identity;
 
 import br.com.sisos.entity.Cliente;
+import br.com.sisos.entity.IdentityCustomized;
 import br.com.sisos.entity.Servico;
 import br.com.sisos.entity.Tecnico;
 import br.com.sisos.services.ClienteService;
@@ -28,6 +33,13 @@ public class ServicoAction extends BaseAction {
 	@In(create = true)
 	@Out(scope = ScopeType.CONVERSATION, required = false)
 	private Servico servico;
+	
+	@In(create = true)
+	@Out(scope = ScopeType.CONVERSATION, required = false)
+	private Cliente cliente;
+	
+	@In
+	IdentityCustomized identity;
 
 	@In
 	private ServicoService servicoService;
@@ -36,28 +48,12 @@ public class ServicoAction extends BaseAction {
 	@In
 	private TecnicoService tecnicoService;
 	
-	@RequestParameter
-	private Integer idCliente;
-	
-	@RequestParameter
-	private Integer idTecnico;
-	
-	
-
-	public Integer getIdCliente() {
-		return idCliente;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setIdCliente(Integer idCliente) {
-		this.idCliente = idCliente;
-	}
-
-	public Integer getIdTecnico() {
-		return idTecnico;
-	}
-
-	public void setIdTecnico(Integer idTecnico) {
-		this.idTecnico = idTecnico;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Servico getServico() {
@@ -74,27 +70,66 @@ public class ServicoAction extends BaseAction {
 		return clientes;
 
 	}
+	
+
+	public List<Cliente> carregarTodosClientes() {		 
+		return this.clienteService.carregarTodos();
+	}
 
 	@Begin(join = true)
-	public void salvar(Servico servico) {
+	public String salvar(Servico servico) {
 		
-		Tecnico tec = new Tecnico();
-		Cliente cli = new Cliente();
-		tec = this.tecnicoService.carregarPorId(this.idTecnico);		
-		cli = this.clienteService.carregarPorId(this.idCliente);
-		servico.setTecnico(tec);
-		servico.setCliente(cli);
+		if (!Identity.instance().hasRole("admin")){
+			Tecnico tec = new Tecnico();
+			tec = this.tecnicoService.carregarPorId(this.identity.getUsuario().getId());
+			this.servico.setTecnico(tec);
+		}
+		this.servico.setNumOrdemServico(gerarNumOS());
+		this.servico.setDtaAtendimento(new Date());		
+		this.servico.setCliente(this.cliente);		
 		this.servicoService.salvar(servico);
-		this.servico = new Servico();
+		this.servico = new Servico();		
 		this.addMsgBundle(FacesMessage.SEVERITY_INFO, "crudSaveSucess");
+		return "home";
 	}
 	
-	public List<Servico> carregarServicoPorTecnico(Integer id){
+	public List<Servico> carregarServicoNaoFinalizadoPorTecnico(Integer id){
 		
 		Tecnico tec = new Tecnico();
 		tec = this.tecnicoService.carregarPorId(id);
-		return tec.getServicos();
+		List<Servico> servicos = tec.getServicos();
+		List<Servico> servicosNaoFinalizados = new ArrayList<Servico>();
+		for (Servico obj : servicos){
+			if (!obj.getServicoStatus().getDescricao().equalsIgnoreCase("Finalizado")){
+				servicosNaoFinalizados.add(obj);
+			}
+		}
+		return servicosNaoFinalizados;
 		
 	}
-
+	
+	@Begin(join = true)
+	public void selecionarCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
+	@End
+	public List<Tecnico> carregarTodosTecnicos(){
+		return this.tecnicoService.carregarGrupoTecnico();
+	}
+	
+	public int gerarNumOS(){
+		int ano = Calendar.getInstance().get(Calendar.YEAR);
+		int seg = Calendar.getInstance().get(Calendar.SECOND);
+		int mili = Calendar.getInstance().get(Calendar.MILLISECOND);
+		String n = String.valueOf(ano) + String.valueOf(seg) + String.valueOf(mili);
+		return Integer.parseInt(n);
+	}
+	
+	@End
+	public String cancelar() {
+		this.servico = new Servico();
+		return "home";
+	}	
+	
 }
