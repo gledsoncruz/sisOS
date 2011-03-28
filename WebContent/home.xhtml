@@ -133,8 +133,7 @@
 
 						<s:decorate id="NumOSField" template="/layout/edit.xhtml">
 							<ui:define name="label">Num OS:</ui:define>
-							<h:outputText id="numOSGerado"
-								value="#{servicoAction.gerarNumOS()}" />
+							<h:outputText id="numOSGerado" value="#{servico.numOrdemServico}" />
 						</s:decorate>
 
 						<s:decorate id="clienteNomeField" template="/layout/edit.xhtml">
@@ -194,52 +193,52 @@
 						<s:decorate id="defeitoEncontradoField"
 							template="/layout/edit.xhtml">
 							<ui:define name="label">Defeito encontrado:</ui:define>
-							<h:inputTextarea id="defeitoEncontrado"
-								value="#{servico.defeitoEncontrado}" required="true" cols="70"
-								rows="2">
-								<a4j:support event="onblur" reRender="defeitoEncontradoField"
-									bypassUpdates="true" ajaxSingle="true" status="none" />
-							</h:inputTextarea>
+
+							<p:inplace
+								label="#{servico.defeitoEncontrado.length() > 0 ? servico.defeitoEncontrado : 'Clique aqui para adicionar o defeito encontrado'}">
+								<h:inputTextarea id="defeitoEncontrado"
+									value="#{servico.defeitoEncontrado}" required="false" cols="70"
+									rows="2" />
+							</p:inplace>
 						</s:decorate>
 
 						<s:decorate id="solucaoField" template="/layout/edit.xhtml">
 							<ui:define name="label">Solução:</ui:define>
-							<h:inputTextarea id="solucao" value="#{servico.solucao}"
-								required="true" cols="70" rows="2">
-								<a4j:support event="onblur" reRender="solucaoField"
-									bypassUpdates="true" ajaxSingle="true" status="none" />
-							</h:inputTextarea>
+							<p:inplace
+								label="#{servico.solucao.length() > 0 ? servico.solucao : 'Clique aqui para adicionar o solução encontrada'}">
+								<h:inputTextarea id="solucao" value="#{servico.solucao}"
+									required="false" cols="70" rows="2" />
+							</p:inplace>
 						</s:decorate>
 
 						<s:decorate id="valorMaoObraField" template="/layout/edit.xhtml">
 							<ui:define name="label">Valor Mão de Obra:</ui:define>
+							<p:inplace label="#{servico.valorMaoObra.toString().length() > 0 ? servico.valorMaoObra : 'Clique aqui para adicionar o valor da mão de obra'}">
 							<h:inputText id="valorMaoObra" size="10"
-								value="#{servico.valorMaoObra}" required="true">
-								<a4j:support event="onblur" reRender="valorMaoObraField"
-									bypassUpdates="true" ajaxSingle="true" status="none" />
-							</h:inputText>
+								value="#{servico.valorMaoObra}" required="false"/>
+								</p:inplace>
 						</s:decorate>
 
 						<s:decorate id="observacaoField" template="/layout/edit.xhtml">
 							<ui:define name="label">Observação:</ui:define>
+							<p:inplace label="#{servico.observacao.length() > 0 ? servico.observacao : 'Clique aqui para adicionar uma observação retativa a OS'}">
 							<h:inputTextarea id="observacao" value="#{servico.observacao}"
-								cols="70" rows="2">
-								<a4j:support event="onblur" reRender="observacaoField"
-									bypassUpdates="true" ajaxSingle="true" status="none" />
-							</h:inputTextarea>
+								cols="70" rows="2"/>
+							</p:inplace>	
 						</s:decorate>
-						
+
 						<s:decorate id="statusServicoField" template="/layout/edit.xhtml">
-						<ui:define name="label">Status Serviço:</ui:define>
-						<h:selectOneMenu value="#{servico.servicoStatus}" required="true" id="sStatus">
-							<s:selectItems var="status"
-								value="#{servicoStatusAction.carregarTodos()}"
-								label="#{status.descricao}" noSelectionLabel="-- Selecione --"></s:selectItems>
-							<s:convertEntity></s:convertEntity>
-							<a4j:support event="onblur" reRender="statusServicoField"
-								bypassUpdates="true" ajaxSingle="true"  status="none"/>
-						</h:selectOneMenu>
-					</s:decorate>
+							<ui:define name="label">Status Serviço:</ui:define>
+							<h:selectOneMenu value="#{servico.servicoStatus}"
+								required="false" id="sStatus">
+								<s:selectItems var="status"
+									value="#{servicoStatusAction.carregarTodos()}"
+									label="#{status.descricao}" noSelectionLabel="-- Selecione --"></s:selectItems>
+								<s:convertEntity></s:convertEntity>
+								<a4j:support event="onblur" reRender="statusServicoField"
+									bypassUpdates="true" ajaxSingle="true" status="none" />
+							</h:selectOneMenu>
+						</s:decorate>
 
 						<br />
 						<br />
@@ -250,19 +249,76 @@
 						<br />
 						<br />
 
-						<div class="actionButtons">
-						
-						<a4j:commandButton value="Salvar" style=" width : 100px;"
+						<div class="actionButtons"><a4j:commandButton value="Salvar"
+							style=" width : 100px;"
 							action="#{servicoAction.alterar(servico)}"
-							rendered="#{servico.id != null}"
-							reRender="frmNovaOS" />
-							
-							<h:commandButton
-								value="#{messages['btnCancel']}" style="width : 100px;"
-								action="#{servicoAction.cancelar()}"/>
-							
-						</div>
+							rendered="#{servico.id != null}" reRender="frmNovaOS" /> <h:commandButton
+							value="#{messages['btnCancel']}" style="width : 100px;"
+							action="#{servicoAction.cancelar()}" /></div>
 
+
+
+					</rich:tab>
+					<rich:tab label="Peças / Materiais">
+						<h:form>
+						<h:inputText value="Pesquisar peças"/>
+
+							<rich:dataTable value="#{pecaAction.carregarTodos()}" var="peca"
+								rows="10" reRender="ds" id="simpletable"
+								rendered="#{pecaAction.carregarTodos().size > 0}"
+								columnClasses="center"
+								onRowMouseOver="this.style.backgroundColor='#b2d5d6'"
+								onRowMouseOut="this.style.backgroundColor='#FFFFFF'">
+								<f:facet name="header">
+									<h:outputText value="Peças" />
+								</f:facet>
+								<rich:column sortBy="#{peca.descricao}" filterBy="#{peca.descricao}">
+									<f:facet name="header">
+										<h:outputText value="Descrição" />
+									</f:facet>
+									<h:outputText value="#{peca.descricao}" />
+								</rich:column>
+
+								<rich:column sortBy="#{peca.valor}">
+									<f:facet name="header">
+										<h:outputText value="Valor" />
+									</f:facet>
+									<h:outputText value="#{peca.valor}">
+										<f:convertNumber pattern="#,##0.00" />
+									</h:outputText>
+								</rich:column>
+
+								<rich:column style="text-align: center;"
+									rendered="#{identity.hasRole('admin')}">
+									<f:facet name="header">
+										<h:outputText value="Editar" />
+									</f:facet>
+									<a4j:commandLink action="#{pecaAction.selecionarPeca(peca)}"
+										reRender="pecaForm">
+										<h:graphicImage value="/img/ico_altera_16.gif"
+											style="border: none;" alt="Alterar" title="Alterar Registro" />
+									</a4j:commandLink>
+								</rich:column>
+								<rich:column style="text-align: center;"
+									rendered="#{identity.hasRole('admin')}">
+									<f:facet name="header">
+										<h:outputText value="Apagar" />
+									</f:facet>
+									<a4j:commandLink action="#{pecaAction.excluir(peca)}"
+										reRender="simpletable,pecaForm"
+										onclick="if(!confirm('Confirma Exclus&#227;o?')){return false;}">
+										<h:graphicImage value="/img/ico_apaga_16.gif"
+											style="border: none;" alt="Excluir" title="Excluir Registro" />
+									</a4j:commandLink>
+								</rich:column>
+
+
+								<f:facet name="footer">
+									<rich:datascroller id="ds"></rich:datascroller>
+								</f:facet>
+							</rich:dataTable>
+
+						</h:form>
 
 
 					</rich:tab>
